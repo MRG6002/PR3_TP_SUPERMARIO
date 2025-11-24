@@ -2,6 +2,7 @@
 
 package tp1.control.commands;
 
+import tp1.exceptions.CommandParseException;
 import tp1.logic.GameModel;
 
 import tp1.view.GameView;
@@ -37,13 +38,17 @@ public class ResetCommand extends AbstractCommand {
 	}
 
 	@Override
-	public Command parse(String[] commandWords) {
+	public Command parse(String[] commandWords) throws CommandParseException {
 		Command command = null;
-		
-		if((commandWords.length == 1 || commandWords.length == 2) && this.matchCommandName(commandWords[0])) {
-			if(commandWords.length == 1) command = new ResetCommand();
-			else command = new ResetCommand(Integer.parseInt(commandWords[1]));
+		try {
+			if((commandWords.length == 1 || commandWords.length == 2) && this.matchCommandName(commandWords[0])) {
+				if(commandWords.length == 1) command = new ResetCommand();
+				else command = new ResetCommand(Integer.parseInt(commandWords[1]));
+			}
+		} catch (NumberFormatException nfe) {
+			throw new CommandParseException(Messages.LEVEL_NOT_A_NUMBER_ERROR.formatted(commandWords[1]), nfe);
 		}
+
 	return command;
 	}
 }
