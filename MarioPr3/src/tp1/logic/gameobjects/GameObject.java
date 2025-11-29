@@ -66,6 +66,8 @@ public abstract class GameObject implements GameItem{
 	public boolean receiveInteraction(Goomba obj) {return false;}
 	public boolean receiveInteraction(Mushroom obj) {return false;}
 	public boolean receiveInteraction(Box obj) {return false;}
+	
+	public boolean bothAlive(GameItem item) { return this.isAlive() && item.isAlive();}
 
 	public GameObject parse(String objWords[], GameWorld game) {
 		GameObject obj = null;

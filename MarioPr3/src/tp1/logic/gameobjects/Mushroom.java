@@ -35,7 +35,7 @@ public class Mushroom extends MovingObject{
 
 	@Override
 	public boolean interactWith(GameItem item) {
-		boolean interaction = item.isInPosition(this.position);
+		boolean interaction = item.isInPosition(this.position) && this.bothAlive(item);
 		if(interaction) { item.receiveInteraction(this);}
 		return interaction;
 	}

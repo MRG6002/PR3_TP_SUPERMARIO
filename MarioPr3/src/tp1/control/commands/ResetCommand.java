@@ -2,6 +2,8 @@
 
 package tp1.control.commands;
 
+import tp1.exceptions.CommandExecuteException;
+import tp1.exceptions.CommandParseException;
 import tp1.logic.GameModel;
 
 import tp1.view.GameView;
@@ -27,23 +29,31 @@ public class ResetCommand extends AbstractCommand {
 	}
 
 	@Override
-	public void execute(GameModel game, GameView view) {
+	public void execute(GameModel game, GameView view) throws CommandExecuteException{
 		if(!this.levelExists) {
 			game.reset();
 			view.showGame();
 		}
 		else if(game.reset(level)) view.showGame();
-		else view.showError(Messages.INVALID_LEVEL_NUMBER);
+		else throw new CommandExecuteException(Messages.INVALID_LEVEL_NUMBER);
 	}
 
 	@Override
-	public Command parse(String[] commandWords) {
-		Command command = null;
+	public Command parse(String[] commandWords) throws CommandParseException{
+		if (commandWords.length > 2 && matchCommandName(commandWords[0]))
+	 		throw new CommandParseException(Messages.COMMAND_INCORRECT_PARAMETER_NUMBER);
 		
-		if((commandWords.length == 1 || commandWords.length == 2) && this.matchCommandName(commandWords[0])) {
-			if(commandWords.length == 1) command = new ResetCommand();
-			else command = new ResetCommand(Integer.parseInt(commandWords[1]));
+		try {
+			
+			Command command = null;
+			if((commandWords.length == 1 || commandWords.length == 2) && this.matchCommandName(commandWords[0])) {
+				if(commandWords.length == 1) command = new ResetCommand();
+				else command = new ResetCommand(Integer.parseInt(commandWords[1]));
+			}
+			return command;
+			
+		} catch (NumberFormatException nfe) {
+			throw new CommandParseException(Messages.LEVEL_NOT_A_NUMBER_ERROR.formatted(commandWords[1]), nfe);
 		}
-	return command;
 	}
 }

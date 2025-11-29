@@ -101,8 +101,8 @@ public class Mario extends MovingObject {
 	//interacciones de Mario
 	public  boolean interactWith(GameItem item) {
 		boolean interaction = item.isInPosition(this.position) || (this.big && item.isInPosition(this.position.go(Action.UP)));
-		if(interaction) {item.receiveInteraction(this);}
-		return interaction;
+		if(interaction && this.bothAlive(item)) {item.receiveInteraction(this);}
+		return interaction && this.bothAlive(item);
 	}
 	
 	@Override

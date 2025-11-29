@@ -36,13 +36,9 @@ public class GameObjectContainer {
 	
 	public void doInteractionsFrom(GameItem object) {
 		List<GameObject> aux = auxiliarObjects();
-		if(object.isAlive()) {
-			for(GameObject o: aux) { 
-				if(object.isAlive() && o.isAlive()) {
-					object.interactWith(o);
-					o.interactWith(object);
-				}
-			}
+		for(GameObject o: aux) { 
+			object.interactWith(o);
+			o.interactWith(object);
 		}
 	}
 	
