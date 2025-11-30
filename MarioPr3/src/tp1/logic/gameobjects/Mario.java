@@ -36,13 +36,13 @@ public class Mario extends MovingObject {
 	}
 	
 	@Override
-	public GameObject newCopy(Position pos, GameWorld game) {
+	public GameObject newObject(Position pos, GameWorld game) {
 		return new Mario(pos, game);
 	}
 	
 	@Override
-	protected GameObject newCopy(Position pos, GameWorld game, Action dir) {
-		return new Mario(pos, game, dir, true);
+	protected GameObject newObject(Position pos, GameWorld game, Action dir) {
+		return new Mario(pos, game, dir, this.big);
 	}
 	
 	public void connect() {
@@ -173,7 +173,7 @@ public class Mario extends MovingObject {
 			}
 			return mario;
 		} catch (OffBoardException obe){
-			throw new OffBoardException(Messages.POSITION_OUT_OF_BOUNDS.formatted(String.join(" ", objWords)), obe);
+			throw new OffBoardException(Messages.POSITION_OUT_OF_BOUNDS.formatted(String.join(" ", objWords)));
 		} catch (PositionParseException ppe) {
 			throw new ObjectParseException(Messages.INVALID_OBJECT_POSITION.formatted(String.join(" ", objWords)), ppe);
 		} catch (ActionParseException ape) {

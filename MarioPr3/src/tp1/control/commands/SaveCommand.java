@@ -30,7 +30,7 @@ public class SaveCommand extends AbstractCommand {
 	public void execute(GameModel game, GameView view) throws CommandExecuteException{
 		try {
 			game.save(this.fileName);
-			view.showMessage(Messages.COMMAND_SAVE_OK);
+			view.showMessage(Messages.COMMAND_SAVE_OK.formatted(this.fileName));
 		} catch (GameModelException gme) {
 			throw new CommandExecuteException(Messages.INVALID_LEVEL_NUMBER);
 		}

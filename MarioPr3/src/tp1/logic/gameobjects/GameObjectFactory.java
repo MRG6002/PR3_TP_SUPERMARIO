@@ -8,6 +8,7 @@ import java.util.List;
 import tp1.exceptions.ObjectParseException;
 import tp1.exceptions.OffBoardException;
 import tp1.logic.GameWorld;
+import tp1.view.Messages;
 
 public class GameObjectFactory {
 	private static final List<GameObject> availableObjects = Arrays.asList(
@@ -25,7 +26,7 @@ public class GameObjectFactory {
 			object = o.parse(objWords, game);
 			if(object != null) return object;
 		}
-		return object;
+		throw new ObjectParseException(Messages.UNKNOWN_GAME_OBJECT.formatted(String.join(" ", objWords)));
 	}
 
 }

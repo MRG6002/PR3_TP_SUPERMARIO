@@ -24,12 +24,12 @@ public class Mushroom extends MovingObject{
 	}
 	
 	@Override
-	public GameObject newCopy(Position pos, GameWorld game) {
+	public GameObject newObject(Position pos, GameWorld game) {
 		return new Mushroom(pos, game);
 	}
 	
 	@Override
-	protected GameObject newCopy(Position pos, GameWorld game, Action dir) {
+	protected GameObject newObject(Position pos, GameWorld game, Action dir) {
 		return new Mushroom(pos, game, dir);
 	}
 

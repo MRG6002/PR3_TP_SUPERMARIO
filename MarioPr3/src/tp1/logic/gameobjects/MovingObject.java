@@ -34,13 +34,13 @@ public abstract class MovingObject extends GameObject {
 			else if(matchObjectName(objWords[1])) {
 				Position pos = Position.stringToPosition(objWords[0]);
 				Action dir = Action.parseAction(objWords[2]);
-				if(validDirection(dir)) return newCopy(pos, game, dir);
+				if(validDirection(dir)) obj = newObject(pos, game, dir);
 				else throw new ObjectParseException(Messages.INVALID_MO_DIRECTION.formatted(String.join(" ", objWords)));
 			}
 			return obj;
 			
 		} catch (OffBoardException obe){
-			throw new OffBoardException(Messages.POSITION_OUT_OF_BOUNDS.formatted(String.join(" ", objWords)), obe);
+			throw new OffBoardException(Messages.POSITION_OUT_OF_BOUNDS.formatted(String.join(" ", objWords)));
 		} catch (PositionParseException ppe) {
 			throw new ObjectParseException(Messages.INVALID_OBJECT_POSITION.formatted(String.join(" ", objWords)), ppe);
 		} catch (ActionParseException ape) {
@@ -51,7 +51,7 @@ public abstract class MovingObject extends GameObject {
 	
 	protected boolean validDirection(Action dir) { return dir == Action.RIGHT || dir == Action.LEFT; }
 	
-	protected abstract GameObject newCopy(Position pos, GameWorld game, Action action);
+	protected abstract GameObject newObject(Position pos, GameWorld game, Action action);
 	
 	public void update() {
 		if(this.game.isSolid(this.position.go(Action.DOWN))) {

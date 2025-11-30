@@ -26,6 +26,8 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	public static final int DIM_X = 30;
 	public static final int DIM_Y = 15;
 	
+	private GameConfiguration fileloader;
+	
 	private GameObjectContainer gameObjectContainer;
 	private int time;
 	private int points;
@@ -47,11 +49,13 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	}
 	
 	public void reset() {
-		reset(this.level);
+		if(fileloader != null) loadFileInfo();
+		else reset(this.level);
 	}
 	
 	public boolean reset(int level) {
 		boolean levelExists = true;
+		this.fileloader = null;
 		switch (level) {
 		case 0:{this.initLevel0();} break;
 		case 1:{this.initLevel1();} break;
@@ -74,14 +78,22 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	}
 	
 	public void load(String fileName) throws GameLoadException {
-		FileGameConfiguration fgc = new FileGameConfiguration(fileName, this);
-		this.time = fgc.getRemainingTime();
-		this.points = fgc.points();
-		this.lives = fgc.numLives();
-		this.mario = fgc.getMario();
+		this.fileloader = new FileGameConfiguration(fileName, this);
+		this.lives = this.fileloader.numLives();
+		loadFileInfo();
+	}
+	
+	private void loadFileInfo() {
 		this.gameObjectContainer = new GameObjectContainer();
-		List<GameObject> aux = fgc.getNPCObjects();
-		for(GameObject o: aux) add(o);
+		this.time = this.fileloader.getRemainingTime();
+		this.points = this.fileloader.points();
+		this.mario = this.fileloader.getMario(); addCopy(this.mario);
+		List<GameObject> aux = this.fileloader.getNPCObjects();
+		for(GameObject o: aux) addCopy(o);
+	}
+	
+	private void addCopy(GameObject object) {
+		add(object.newCopy());
 	}
 	
 	//funciones generales

@@ -29,7 +29,7 @@ public class Box extends GameObject{
 	}
 	
 	@Override
-	public GameObject newCopy(Position pos, GameWorld game) {
+	public GameObject newObject(Position pos, GameWorld game) {
 		return new Box(pos, game);
 	}
 	
@@ -38,7 +38,7 @@ public class Box extends GameObject{
 	
 	@Override
 	public boolean interactWith(GameItem item) {
-		boolean interaction = item.isInPosition(this.position.go(Action.DOWN)) && this.bothAlive(item);
+		boolean interaction = !this.isOpen && item.isInPosition(this.position.go(Action.DOWN)) && this.bothAlive(item);
 		if(interaction) {item.receiveInteraction(this);}
 		return interaction;
 	}
@@ -57,7 +57,7 @@ public class Box extends GameObject{
 		
 		try {
 			
-			GameObject box = null;
+			GameObject box = null; 
 			if(objWords.length == 2) box = super.parse(objWords, game);	
 			else if(matchObjectName(objWords[1])) {
 				Position pos = Position.stringToPosition(objWords[0]);
