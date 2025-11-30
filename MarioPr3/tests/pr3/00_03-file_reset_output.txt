@@ -26,7 +26,9 @@ Lives: 3
 
 Command > [DEBUG] Executing: load conf_0
 
-[ERROR] Error: Unknown command: load conf_0
+[ERROR] Error: Unable to load game configuration from file "conf_0"
+[ERROR] Error: File not found: "conf_0"
+[ERROR] Error: conf_0 (El sistema no puede encontrar el archivo especificado)
 Command > [DEBUG] Executing: 
 
 Time: 99

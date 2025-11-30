@@ -1,0 +1,112 @@
+99 0 3
+(13,0) land
+(14,0) land
+(13,1) land
+(14,1) land
+(13,2) land
+(14,2) land
+(13,3) land
+(14,3) land
+(13,4) land
+(14,4) land
+(13,5) land
+(14,5) land
+(13,6) land
+(14,6) land
+(13,7) land
+(14,7) land
+(13,8) land
+(14,8) land
+(13,9) land
+(14,9) land
+(13,10) land
+(14,10) land
+(13,11) land
+(14,11) land
+(13,12) land
+(14,12) land
+(13,13) land
+(14,13) land
+(13,14) land
+(14,14) land
+(12,9) land
+(12,12) land
+(13,17) land
+(14,17) land
+(13,18) land
+(14,18) land
+(13,19) land
+(14,19) land
+(13,20) land
+(14,20) land
+(13,21) land
+(14,21) land
+(13,22) land
+(14,22) land
+(13,23) land
+(14,23) land
+(13,24) land
+(14,24) land
+(13,25) land
+(14,25) land
+(13,26) land
+(14,26) land
+(13,27) land
+(14,27) land
+(13,28) land
+(14,28) land
+(13,29) land
+(14,29) land
+(9,2) land
+(9,5) land
+(9,6) land
+(9,7) land
+(5,6) land
+(12,19) land
+(12,20) land
+(11,20) land
+(12,21) land
+(11,21) land
+(10,21) land
+(12,22) land
+(11,22) land
+(10,22) land
+(9,22) land
+(12,23) land
+(11,23) land
+(10,23) land
+(9,23) land
+(8,23) land
+(12,24) land
+(11,24) land
+(10,24) land
+(9,24) land
+(8,24) land
+(7,24) land
+(12,25) land
+(11,25) land
+(10,25) land
+(9,25) land
+(8,25) land
+(7,25) land
+(6,25) land
+(12,26) land
+(11,26) land
+(10,26) land
+(9,26) land
+(8,26) land
+(7,26) land
+(6,26) land
+(5,26) land
+(12,29) exitdoor
+(12,1) mario RIGHT
+(1,19) goomba LEFT
+(12,5) goomba LEFT
+(12,7) goomba LEFT
+(11,10) goomba LEFT
+(12,10) goomba LEFT
+(12,13) goomba LEFT
+(4,5) goomba LEFT
+(3,20) mushroom RIGHT
+(12,8) mushroom LEFT
+(9,4) box

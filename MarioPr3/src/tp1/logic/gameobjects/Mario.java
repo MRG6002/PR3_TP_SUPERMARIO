@@ -162,7 +162,7 @@ public class Mario extends MovingObject {
 		
 		try {
 			GameObject mario = null;
-			if(objWords.length < 4)	super.parse(objWords, game);	
+			if(objWords.length < 4)	mario = super.parse(objWords, game);	
 			else if(matchObjectName(objWords[1])) {
 				Position pos = Position.stringToPosition(objWords[0]);
 				Action dir = Action.parseAction(objWords[2]);

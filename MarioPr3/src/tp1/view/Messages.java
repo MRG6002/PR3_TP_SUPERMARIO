@@ -57,6 +57,9 @@ public class Messages {
 	public static final String UNKNOWN_MO_DIRECTION = "Unknown moving object direction: \"%s\"";
 	public static final String INVALID_MO_DIRECTION = "Invalid moving object direction: \"%s\"";
 	public static final String OBJECT_TOO_MUCH_ARGS = "Object parse error, too much args: \"%s\"";
+	public static final String INCORRECT_GAME_STATUS = "Incorrect game status \"%s\"";
+	public static final String INVALID_GAME_CONFIG = "Invalid file \"%s\" configuration";
+	public static final String UNABLE_TO_LOAD = "Unable to load game configuration from file \"%s\"";
 
 
 	public static final String INVALID_BOX_STATUS = " Invalid Box status: \"%s\"";
@@ -132,6 +135,11 @@ public class Messages {
 	public static final String COMMAND_SAVE_HELP = "save the actual configuration in text file <fileName>";
 	public static final String COMMAND_SAVE_OK = LINE.formatted(TAB + "File \"%s\" correctly saved");
 	
+	//LOAD
+	public static final String COMMAND_LOAD_NAME = "load";
+	public static final String COMMAND_LOAD_SHORTCUT = "l";
+	public static final String COMMAND_LOAD_DETAILS = "[l]oad <fileName>";
+	public static final String COMMAND_LOAD_HELP = "load the game configuration from text file <fileName>";	
 	
 	//ACTION
 	public static final String COMMAND_ADDOBJECT_NAME = "addObject";

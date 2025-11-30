@@ -2,6 +2,7 @@
 
 package tp1.logic;
 
+import tp1.exceptions.GameLoadException;
 import tp1.exceptions.GameModelException;
 
 public interface GameModel {
@@ -14,4 +15,5 @@ public interface GameModel {
 	public boolean reset(int level);
 	public void addObject(String[] objWords) throws GameModelException;
 	public void save(String fileName) throws GameModelException;
+	public void load(String fileName) throws GameLoadException;
 }

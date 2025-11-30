@@ -8,7 +8,9 @@ import tp1.logic.gameobjects.Goomba;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 
+import tp1.exceptions.GameLoadException;
 import tp1.exceptions.GameModelException;
 import tp1.exceptions.ObjectParseException;
 import tp1.exceptions.OffBoardException;
@@ -71,6 +73,17 @@ public class Game implements GameModel, GameStatus, GameWorld {
 		}
 	}
 	
+	public void load(String fileName) throws GameLoadException {
+		FileGameConfiguration fgc = new FileGameConfiguration(fileName, this);
+		this.time = fgc.getRemainingTime();
+		this.points = fgc.points();
+		this.lives = fgc.numLives();
+		this.mario = fgc.getMario();
+		this.gameObjectContainer = new GameObjectContainer();
+		List<GameObject> aux = fgc.getNPCObjects();
+		for(GameObject o: aux) add(o);
+	}
+	
 	//funciones generales
 	public String positionToString(int col, int row) {
 		Position position = new Position(row, col);
@@ -102,7 +115,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 		this.gameObjectContainer.update();
 	}
 	
-	public int remainingTime() {
+	public int getRemainingTime() {
 	return this.time;
 	}
 

@@ -50,7 +50,7 @@ public class ConsoleView extends GameView {
 		StringBuilder buffer = new StringBuilder();
 		/* @formatter:off */
 		buffer
-		.append(Messages.REMAINING_TIME.formatted(game.remainingTime())).append(NEW_LINE)
+		.append(Messages.REMAINING_TIME.formatted(game.getRemainingTime())).append(NEW_LINE)
 		.append(Messages.POINTS.formatted(game.points())).append(NEW_LINE)
 		.append(Messages.NUM_LIVES.formatted(game.numLives())).append(NEW_LINE);
 		/* @formatter:on */

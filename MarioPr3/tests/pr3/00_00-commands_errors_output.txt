@@ -135,19 +135,21 @@ Command > [DEBUG] Executing: addObject (3,5) Mario Right Small extraArgs
 [ERROR] Error: Object parse error, too much args: "(3,5) Mario Right Small extraArgs"
 Command > [DEBUG] Executing: s
 
-[ERROR] Error: Unknown command: s
+[ERROR] Error: Incorrect parameter number
 Command > [DEBUG] Executing: l
 
-[ERROR] Error: Unknown command: l
+[ERROR] Error: Incorrect parameter number
 Command > [DEBUG] Executing: save fileName extraArgs
 
-[ERROR] Error: Unknown command: save fileName extraArgs
+[ERROR] Error: Incorrect parameter number
 Command > [DEBUG] Executing: load fileName extraArgs
 
-[ERROR] Error: Unknown command: load fileName extraArgs
+[ERROR] Error: Incorrect parameter number
 Command > [DEBUG] Executing: load unknownFile
 
-[ERROR] Error: Unknown command: load unknownFile
+[ERROR] Error: Unable to load game configuration from file "unknownFile"
+[ERROR] Error: File not found: "unknownFile"
+[ERROR] Error: unknownFile (El sistema no puede encontrar el archivo especificado)
 Command > [DEBUG] Executing: exit
 
 Player leaves the game

@@ -26,34 +26,54 @@ Lives: 3
 
 Command > [DEBUG] Executing: load conf
 
-[ERROR] Error: Unknown command: load conf
+[ERROR] Error: Unable to load game configuration from file "conf"
+[ERROR] Error: File not found: "conf"
+[ERROR] Error: conf (El sistema no puede encontrar el archivo especificado)
 Command > [DEBUG] Executing: load conf_2
 
-[ERROR] Error: Unknown command: load conf_2
+[ERROR] Error: Unable to load game configuration from file "conf_2"
+[ERROR] Error: File not found: "conf_2"
+[ERROR] Error: conf_2 (El sistema no puede encontrar el archivo especificado)
 Command > [DEBUG] Executing: load conf_3
 
-[ERROR] Error: Unknown command: load conf_3
+[ERROR] Error: Unable to load game configuration from file "conf_3"
+[ERROR] Error: File not found: "conf_3"
+[ERROR] Error: conf_3 (El sistema no puede encontrar el archivo especificado)
 Command > [DEBUG] Executing: load conf_4
 
-[ERROR] Error: Unknown command: load conf_4
+[ERROR] Error: Unable to load game configuration from file "conf_4"
+[ERROR] Error: File not found: "conf_4"
+[ERROR] Error: conf_4 (El sistema no puede encontrar el archivo especificado)
 Command > [DEBUG] Executing: load conf_5
 
-[ERROR] Error: Unknown command: load conf_5
+[ERROR] Error: Unable to load game configuration from file "conf_5"
+[ERROR] Error: File not found: "conf_5"
+[ERROR] Error: conf_5 (El sistema no puede encontrar el archivo especificado)
 Command > [DEBUG] Executing: load conf_6
 
-[ERROR] Error: Unknown command: load conf_6
+[ERROR] Error: Unable to load game configuration from file "conf_6"
+[ERROR] Error: File not found: "conf_6"
+[ERROR] Error: conf_6 (El sistema no puede encontrar el archivo especificado)
 Command > [DEBUG] Executing: load conf_7
 
-[ERROR] Error: Unknown command: load conf_7
+[ERROR] Error: Unable to load game configuration from file "conf_7"
+[ERROR] Error: File not found: "conf_7"
+[ERROR] Error: conf_7 (El sistema no puede encontrar el archivo especificado)
 Command > [DEBUG] Executing: load conf_8
 
-[ERROR] Error: Unknown command: load conf_8
+[ERROR] Error: Unable to load game configuration from file "conf_8"
+[ERROR] Error: File not found: "conf_8"
+[ERROR] Error: conf_8 (El sistema no puede encontrar el archivo especificado)
 Command > [DEBUG] Executing: load conf_0
 
-[ERROR] Error: Unknown command: load conf_0
+[ERROR] Error: Unable to load game configuration from file "conf_0"
+[ERROR] Error: File not found: "conf_0"
+[ERROR] Error: conf_0 (El sistema no puede encontrar el archivo especificado)
 Command > [DEBUG] Executing: load conf_1
 
-[ERROR] Error: Unknown command: load conf_1
+[ERROR] Error: Unable to load game configuration from file "conf_1"
+[ERROR] Error: File not found: "conf_1"
+[ERROR] Error: conf_1 (El sistema no puede encontrar el archivo especificado)
 Command > [DEBUG] Executing: a u r u r u r u r
 
 Time: 99
