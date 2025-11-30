@@ -66,7 +66,6 @@ public class GameObjectContainer {
 	@Override
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append(Messages.LINE.formatted("GAME_OBJECT_CONTAINER:"));
 		for(GameObject o: this.objects) stringBuilder.append(Messages.LINE.formatted(o.toString()));
 	return stringBuilder.toString();
 	}

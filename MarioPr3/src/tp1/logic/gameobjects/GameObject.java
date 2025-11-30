@@ -59,7 +59,6 @@ public abstract class GameObject implements GameItem{
 	}
 	
 	public abstract String getIcon();
-	public abstract String toString();
 	public abstract GameObject newCopy(Position pos, GameWorld game);
 	
 	public void update() {};
@@ -73,6 +72,10 @@ public abstract class GameObject implements GameItem{
 	
 	public boolean bothAlive(GameItem item) { return this.isAlive() && item.isAlive();}
 
+	public String toString() {
+		return this.position.toString() +Messages.SPACE+ this.getName();
+	}
+	
 	public GameObject parse(String objWords[], GameWorld game) throws OffBoardException, ObjectParseException {
 		if (objWords.length > 2 && matchObjectName(objWords[1]))
 	 		throw new ObjectParseException(Messages.OBJECT_TOO_MUCH_ARGS.formatted(String.join(" ", objWords)));

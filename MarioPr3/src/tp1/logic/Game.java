@@ -4,6 +4,12 @@ package tp1.logic;
 
 import tp1.logic.gameobjects.Land;
 import tp1.logic.gameobjects.Goomba;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import tp1.exceptions.GameModelException;
 import tp1.exceptions.ObjectParseException;
 import tp1.exceptions.OffBoardException;
 import tp1.logic.gameobjects.Box;
@@ -52,6 +58,17 @@ public class Game implements GameModel, GameStatus, GameWorld {
 		default: levelExists = false;
 		}
 		return levelExists;
+	}
+	
+	public void save(String fileName) throws GameModelException {
+		try (BufferedWriter out = 
+				new BufferedWriter(
+						new FileWriter(fileName));){
+			out.write(this.time + Messages.SPACE + this.points + Messages.SPACE + this.lives); out.newLine();
+			out.write(this.gameObjectContainer.toString());
+		} catch (IOException e) {
+			throw new GameModelException(Messages.FILE_NOT_OPENED, e);
+		}
 	}
 	
 	//funciones generales

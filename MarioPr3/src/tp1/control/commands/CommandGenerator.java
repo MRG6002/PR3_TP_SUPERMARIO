@@ -10,6 +10,8 @@ import tp1.view.Messages;
 
 public class CommandGenerator {
 	private static final List<Command> availableCommands = Arrays.asList(
+		//new LoadCommand(),
+		new SaveCommand(),
 		new AddObjectCommand(),
 		new ActionCommand(),
 		new UpdateCommand(),

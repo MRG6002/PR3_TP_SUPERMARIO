@@ -41,6 +41,7 @@ public class Position {
 	return Messages.POSITION.formatted(this.row, this.col);		
 	}
 	
+	
 	public static Position stringToPosition(String string) throws OffBoardException, PositionParseException{
 		
 		try {

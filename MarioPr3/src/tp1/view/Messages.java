@@ -71,6 +71,11 @@ public class Messages {
 	public static final String INVALID_COMMAND = "Invalid command: %s";
 	public static final String INVALID_COMMAND_PARAMETERS = "Invalid command parameters";
 	public static final String ERROR_COMMAND_EXECUTE = "Command execute problem";
+	public static final String ERROR_COMMAND_SAVE = "Unable to save game configuration into file \"%s\"";
+	public static final String FILE_NOT_OPENED = "File not opened: \"%s\"";
+	public static final String ERROR_COMMAND_LOAD = "Unable to load game configuration from file \"%s\"";
+	public static final String FILE_NOT_FOUND = "File not found: \"%s\"";
+
 	
 	
 
@@ -120,6 +125,14 @@ public class Messages {
 	public static final String COMMAND_ACTION_DETAILS = "[a]ction [[R]IGHT | [L]EFT | [U]P | [D]OWN | [S]TOP]+";
 	public static final String COMMAND_ACTION_HELP = "user performs actions";
 	
+	//SAVE
+	public static final String COMMAND_SAVE_NAME = "save";
+	public static final String COMMAND_SAVE_SHORTCUT = "s";
+	public static final String COMMAND_SAVE_DETAILS = "[s]ave <fileName>";
+	public static final String COMMAND_SAVE_HELP = "save the actual configuration in text file <fileName>";
+	public static final String COMMAND_SAVE_OK = LINE.formatted(TAB + "File \"%s\" correctly saved");
+	
+	
 	//ACTION
 	public static final String COMMAND_ADDOBJECT_NAME = "addObject";
 	public static final String COMMAND_ADDOBJECT_SHORTCUT = "aO";
@@ -153,4 +166,13 @@ public class Messages {
 	public static final String BOX_SHORTCUT = "b";
 	public static final String MUSHROOM_NAME = "mushroom";
 	public static final String MUSHROOM_SHORTCUT = "mu";
+	//object states: 
+	public static final String BOX_STATUS_EMPTY = "Empty";
+	public static final String BOX_STATUS_EMPTY_SC = "E";
+	public static final String BOX_STATUS_FULL = "Full";
+	public static final String BOX_STATUS_FULL_SC = "F";
+	public static final String MARIO_SIZE_BIG = "Big";
+	public static final String MARIO_SIZE_BIG_SC = "B";
+	public static final String MARIO_SIZE_SMALL = "Small";
+	public static final String MARIO_SIZE_SMALL_SC = "S";
 }

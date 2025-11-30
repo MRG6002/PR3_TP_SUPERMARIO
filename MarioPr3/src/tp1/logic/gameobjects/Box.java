@@ -74,11 +74,13 @@ public class Box extends GameObject{
 	}
 	
 	private boolean correctWord(String string) {
-		return string.equalsIgnoreCase("full") || string.equalsIgnoreCase("f") || emptyBox(string);
+		return string.equalsIgnoreCase(Messages.BOX_STATUS_FULL) 
+				|| string.equalsIgnoreCase(Messages.BOX_STATUS_FULL_SC) || emptyBox(string);
 	}
 	
 	private boolean emptyBox(String string) {
-		return string.equalsIgnoreCase("empty") || string.equalsIgnoreCase("e");
+		return string.equalsIgnoreCase(Messages.BOX_STATUS_EMPTY) 
+				|| string.equalsIgnoreCase(Messages.BOX_STATUS_EMPTY_SC);
 	}
 	
 	@Override
@@ -89,7 +91,9 @@ public class Box extends GameObject{
 
 	@Override
 	public String toString() {
-	return "BOX: " + this.position.toString() + " SOLID";
+	String status = "";
+	if(this.isOpen) status = Messages.SPACE + Messages.BOX_STATUS_EMPTY;
+	return super.toString() + status;
 	}
 
 }

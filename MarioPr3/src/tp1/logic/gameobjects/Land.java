@@ -27,11 +27,6 @@ public class Land extends GameObject {
 	return Messages.LAND;
 	}
 	
-	@Override
-	public String toString() {
-	return "LAND: " + this.position.toString() + " SOLID";
-	}
-	
 	public  boolean interactWith(GameItem item) {return false;}
 	
 	@Override

@@ -13,4 +13,5 @@ public interface GameModel {
 	public void reset();
 	public boolean reset(int level);
 	public void addObject(String[] objWords) throws GameModelException;
+	public void save(String fileName) throws GameModelException;
 }

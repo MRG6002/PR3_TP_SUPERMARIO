@@ -109,11 +109,6 @@ public abstract class MovingObject extends GameObject {
 	
 	@Override
 	public String toString() {
-		StringBuilder stringBuilder = new StringBuilder();
-		
-		stringBuilder.append(this.position.toString()).append(Messages.SPACE).append(this.direction.toString()).append(Messages.SPACE);
-		if(this.isAlive()) stringBuilder.append("ALIVE");
-		else stringBuilder.append("DEAD");
-	return stringBuilder.toString();
+	return super.toString() + Messages.SPACE + this.direction.toString();
 	}
 }

@@ -163,7 +163,7 @@ public class Mario extends MovingObject {
 		try {
 			GameObject mario = null;
 			if(objWords.length < 4)	super.parse(objWords, game);	
-			if(matchObjectName(objWords[1])) {
+			else if(matchObjectName(objWords[1])) {
 				Position pos = Position.stringToPosition(objWords[0]);
 				Action dir = Action.parseAction(objWords[2]);
 				
@@ -188,11 +188,13 @@ public class Mario extends MovingObject {
 	}
 	
 	private boolean validSize(String string) {
-		return string.equalsIgnoreCase("small") || string.equalsIgnoreCase("s") || isBig(string);
+		return string.equalsIgnoreCase(Messages.MARIO_SIZE_SMALL) 
+				|| string.equalsIgnoreCase(Messages.MARIO_SIZE_SMALL_SC) || isBig(string);
 	}
 	
 	private boolean isBig(String string) {
-		return string.equalsIgnoreCase("big") || string.equalsIgnoreCase("b");
+		return string.equalsIgnoreCase(Messages.MARIO_SIZE_BIG) 
+				|| string.equalsIgnoreCase(Messages.MARIO_SIZE_BIG_SC);
 	}
 	
 	@Override
@@ -207,14 +209,8 @@ public class Mario extends MovingObject {
 	
 	@Override
 	public String toString() {
-		StringBuilder stringBuilder = new StringBuilder();
-		
-		stringBuilder.append("MARIO: ").append(super.toString());
-		if(this.big) stringBuilder.append("BIG ");
-		else stringBuilder.append("NOT BIG ");
-		if(this.isFalling()) stringBuilder.append("FALLING ");
-		else stringBuilder.append("NOT FALLING ");
-		stringBuilder.append("NOT SOLID");		
-	return stringBuilder.toString();
+		String size = "";
+		if(!big) size = Messages.SPACE+ Messages.MARIO_SIZE_SMALL;
+		return super.toString() + size;
 	}
 }

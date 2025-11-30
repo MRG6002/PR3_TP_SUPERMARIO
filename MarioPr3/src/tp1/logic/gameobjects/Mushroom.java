@@ -50,11 +50,4 @@ public class Mushroom extends MovingObject{
 	public String getIcon() {
 		return Messages.MUSHROOM;
 	}
-	
-	@Override
-	public String toString() {
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("MUSHROOM: ").append(super.toString());
-	return stringBuilder.toString();
-	}
 }

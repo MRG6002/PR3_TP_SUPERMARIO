@@ -39,11 +39,6 @@ public class Goomba extends MovingObject {
 	return Messages.GOOMBA;
 	}
 	
-	@Override
-	public String toString() {
-	return "GOOMBA: " + super.toString() + " NOT SOLID";
-	}
-	
 	public boolean interactWith(GameItem item) {return true;}
 	
 	@Override
