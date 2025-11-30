@@ -2,6 +2,8 @@
 
 package tp1.logic;
 
+import tp1.exceptions.GameModelException;
+
 public interface GameModel {
 
 	public boolean isFinished();
@@ -10,5 +12,5 @@ public interface GameModel {
 	public void exit();
 	public void reset();
 	public boolean reset(int level);
-	public boolean addObject(String[] objWords);
+	public void addObject(String[] objWords) throws GameModelException;
 }

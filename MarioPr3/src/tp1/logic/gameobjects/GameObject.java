@@ -2,9 +2,13 @@
 
 package tp1.logic.gameobjects;
 
+import tp1.exceptions.ObjectParseException;
+import tp1.exceptions.OffBoardException;
+import tp1.exceptions.PositionParseException;
 import tp1.logic.Action;
 import tp1.logic.GameWorld;
 import tp1.logic.Position;
+import tp1.view.Messages;
 
 public abstract class GameObject implements GameItem{
 	protected Position position; // If you can, make it private
@@ -69,13 +73,25 @@ public abstract class GameObject implements GameItem{
 	
 	public boolean bothAlive(GameItem item) { return this.isAlive() && item.isAlive();}
 
-	public GameObject parse(String objWords[], GameWorld game) {
-		GameObject obj = null;
-		if(objWords.length == 2 && matchObjectName(objWords[1])) {
-			Position pos = Position.stringToPosition(objWords[0]);
-			if(pos != null) obj = this.newCopy(pos, game);
+	public GameObject parse(String objWords[], GameWorld game) throws OffBoardException, ObjectParseException {
+		if (objWords.length > 2 && matchObjectName(objWords[1]))
+	 		throw new ObjectParseException(Messages.OBJECT_TOO_MUCH_ARGS.formatted(String.join(" ", objWords)));
+		
+		try {
+			
+			GameObject obj = null;
+			if(objWords.length == 2 && matchObjectName(objWords[1])) {
+				Position pos = Position.stringToPosition(objWords[0]);
+				obj = this.newCopy(pos, game);
+			}
+			return obj; 
+			
+		} catch (OffBoardException obe){
+			throw new OffBoardException(Messages.POSITION_OUT_OF_BOUNDS.formatted(String.join(" ", objWords)));
+		} catch (PositionParseException ppe) {
+			throw new ObjectParseException(Messages.INVALID_OBJECT_POSITION.formatted(String.join(" ", objWords)), ppe);
 		}
-	return obj;
+		
 	}
 
 	public void connect() {};

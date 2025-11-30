@@ -4,6 +4,8 @@ package tp1.logic;
 
 import java.util.Objects;
 
+import tp1.exceptions.OffBoardException;
+import tp1.exceptions.PositionParseException;
 import tp1.view.Messages;
 
 public class Position {
@@ -39,19 +41,33 @@ public class Position {
 	return Messages.POSITION.formatted(this.row, this.col);		
 	}
 	
-	public static Position stringToPosition(String string) {
-		Position pos = null;
-		if(string.startsWith("(") && string.endsWith(")") && string.contains(",")) {
-			String aux = string.substring(1, string.length() - 1);
-			String[] posiciones = aux.split(",");
-			if(posiciones.length == 2) {
+	public static Position stringToPosition(String string) throws OffBoardException, PositionParseException{
+		
+		try {
+			Position pos = null;
+			if(string != null && validStringFormat(string)) {
+				String[] posiciones = parsePositions(string);
 				int posx = Integer.parseInt(posiciones[0]);
 				int posy = Integer.parseInt(posiciones[1]);
+				
 				if(Position.validPosition(posx, posy)) pos = new Position(posx, posy);
+				else throw new OffBoardException();
+				
 			}
-			
+			else throw new PositionParseException(Messages.INVALID_POSITION.formatted(string));
+			return pos;
+		} catch (NumberFormatException nfe) {
+			throw new PositionParseException(Messages.INVALID_POSITION.formatted(string), nfe);
 		}
-		return pos;
+	}
+	
+	private static boolean validStringFormat(String string) {
+		return string.startsWith("(") && string.endsWith(")") 
+				&& string.contains(",") && string.split(",").length == 2;
+	}
+	
+	private static String[] parsePositions(String string) {
+		return string.substring(1, string.length() - 1).split(",");
 	}
 
 	private static boolean validPosition(int posx, int posy) {

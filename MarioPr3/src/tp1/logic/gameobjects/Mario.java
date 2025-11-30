@@ -3,6 +3,10 @@
 package tp1.logic.gameobjects;
 
 import tp1.logic.Position;
+import tp1.exceptions.ActionParseException;
+import tp1.exceptions.ObjectParseException;
+import tp1.exceptions.OffBoardException;
+import tp1.exceptions.PositionParseException;
 import tp1.logic.Action;
 import tp1.logic.ActionList;
 import tp1.logic.GameWorld;
@@ -152,15 +156,30 @@ public class Mario extends MovingObject {
 	
 	//strings y parse de Mario
 	@Override
-	public GameObject parse(String objWords[], GameWorld game) {
-		GameObject mario = super.parse(objWords, game);	
-		if(mario == null && objWords.length == 4 && matchObjectName(objWords[1])) {
-			Position pos = Position.stringToPosition(objWords[0]);
-			Action dir = Action.parseAction(objWords[2]);
-			if(pos != null && dir != null && validDirection(dir) && validSize(objWords[3])) 
-				return new Mario(pos, game, dir, isBig(objWords[3]));
+	public GameObject parse(String objWords[], GameWorld game) throws OffBoardException, ObjectParseException {
+		if (objWords.length > 4 && matchObjectName(objWords[1]))
+	 		throw new ObjectParseException(Messages.OBJECT_TOO_MUCH_ARGS.formatted(String.join(" ", objWords)));
+		
+		try {
+			GameObject mario = null;
+			if(objWords.length < 4)	super.parse(objWords, game);	
+			if(matchObjectName(objWords[1])) {
+				Position pos = Position.stringToPosition(objWords[0]);
+				Action dir = Action.parseAction(objWords[2]);
+				
+				if(!validDirection(dir)) throw new ObjectParseException(Messages.INVALID_MO_DIRECTION.formatted(String.join(" ", objWords)));
+				else if (!validSize(objWords[3])) throw new ObjectParseException(Messages.INVALID_MARIO_STATUS.formatted(String.join(" ", objWords)));
+				else return new Mario(pos, game, dir, isBig(objWords[3]));
+			}
+			return mario;
+		} catch (OffBoardException obe){
+			throw new OffBoardException(Messages.POSITION_OUT_OF_BOUNDS.formatted(String.join(" ", objWords)), obe);
+		} catch (PositionParseException ppe) {
+			throw new ObjectParseException(Messages.INVALID_OBJECT_POSITION.formatted(String.join(" ", objWords)), ppe);
+		} catch (ActionParseException ape) {
+			throw new ObjectParseException(Messages.UNKNOWN_MO_DIRECTION.formatted(String.join(" ", objWords)), ape);
 		}
-	return mario;
+		
 	}
 	
 	@Override 

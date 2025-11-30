@@ -4,6 +4,8 @@ package tp1.logic;
 
 import tp1.logic.gameobjects.Land;
 import tp1.logic.gameobjects.Goomba;
+import tp1.exceptions.ObjectParseException;
+import tp1.exceptions.OffBoardException;
 import tp1.logic.gameobjects.Box;
 import tp1.logic.gameobjects.ExitDoor;
 import tp1.logic.gameobjects.GameObject;
@@ -124,13 +126,11 @@ public class Game implements GameModel, GameStatus, GameWorld {
 		this.mario = mario;
 	}
 	
-	public boolean addObject(String [] objWords) {
+	public void addObject(String [] objWords) throws OffBoardException, ObjectParseException{
 		GameObject obj = GameObjectFactory.parse(objWords, this);
-		if(obj != null) {
-			this.add(obj);
-			obj.connect();
-		}
-		return obj != null;
+		if (obj == null) throw new ObjectParseException(Messages.UNKNOWN_GAME_OBJECT.formatted(String.join(" ", objWords)));
+		this.add(obj);
+		obj.connect();
 	}
 	
 	@Override

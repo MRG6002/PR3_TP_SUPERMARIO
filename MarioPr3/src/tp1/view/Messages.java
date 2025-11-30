@@ -6,7 +6,7 @@ import tp1.util.MyStringUtils;
 
 public class Messages {
 	
-	public static final String VERSION = "2.X";
+	public static final String VERSION = "3.0";
 
 	public static final String GAME_NAME = "MarioBross";
 
@@ -50,14 +50,29 @@ public class Messages {
 	// Errores de factorías:
 	public static final String UNKNOWN_COMMAND = "Unknown command: %s";
 	public static final String INVALID_GAME_OBJECT = "Invalid game object: %s";
+	public static final String UNKNOWN_GAME_OBJECT = "Unknown game object: \"%s\"";
+	public static final String POSITION_OUT_OF_BOUNDS = "Object position is off board: \"%s\"";
+	public static final String INVALID_POSITION = "Invalid position: \"%s\"";
+	public static final String INVALID_OBJECT_POSITION = "Invalid object position: \"%s\"";
+	public static final String UNKNOWN_MO_DIRECTION = "Unknown moving object direction: \"%s\"";
+	public static final String INVALID_MO_DIRECTION = "Invalid moving object direction: \"%s\"";
+	public static final String OBJECT_TOO_MUCH_ARGS = "Object parse error, too much args: \"%s\"";
+
+
+	public static final String INVALID_BOX_STATUS = " Invalid Box status: \"%s\"";
+	public static final String INVALID_MARIO_STATUS = "Invalid Mario size: \"%s\"";
+
 	// Errores de commandos:
 	public static final String COMMAND_PARAMETERS_MISSING = "Missing parameters";
 	public static final String COMMAND_INCORRECT_PARAMETER_NUMBER = "Incorrect parameter number";
 	public static final String UNKNOWN_ACTION = "Unknown action: \"%s\"";
 	public static final String ILLEGAL_ACTION = "Illegal action: \"%s\"";
+	public static final String NO_VALID_ACTIONS = "Incorrect 'action command', because the action list is empty (all actions are unknown).";
 	public static final String INVALID_COMMAND = "Invalid command: %s";
 	public static final String INVALID_COMMAND_PARAMETERS = "Invalid command parameters";
 	public static final String ERROR_COMMAND_EXECUTE = "Command execute problem";
+	
+	
 
 	
 	public static final String HELP_AVAILABLE_COMMANDS = "Available commands:";

@@ -4,6 +4,9 @@ package tp1.control.commands;
 
 import java.util.Arrays;
 
+import tp1.exceptions.CommandExecuteException;
+import tp1.exceptions.CommandParseException;
+import tp1.exceptions.GameModelException;
 import tp1.logic.GameModel;
 import tp1.view.GameView;
 import tp1.view.Messages;
@@ -25,15 +28,22 @@ public class AddObjectCommand extends AbstractCommand{
 	}
 	
 	@Override
-	public void execute(GameModel game, GameView view) {
-		if(game.addObject(objWords)) view.showGame();
-		else view.showError(Messages.INVALID_GAME_OBJECT.formatted(String.join(" ", this.objWords)));
+	public void execute(GameModel game, GameView view) throws CommandExecuteException{
+		try {
+			game.addObject(objWords);
+			view.showGame();
+		} catch(GameModelException gme) {
+			throw new CommandExecuteException(Messages.ERROR_COMMAND_EXECUTE, gme);
+		}
 	}
 
 	@Override
-	public Command parse(String[] commandWords) {
+	public Command parse(String[] commandWords) throws CommandParseException{
+		if (commandWords.length <= 2 && matchCommandName(commandWords[0]))
+	 		throw new CommandParseException(Messages.COMMAND_INCORRECT_PARAMETER_NUMBER);
+		
 		Command command = null;
-		if(2 <= commandWords.length && this.matchCommandName(commandWords[0])) {
+		if(2 < commandWords.length && this.matchCommandName(commandWords[0])) {
 			command = new AddObjectCommand(Arrays.copyOfRange(commandWords, 1, commandWords.length));
 		}
 		return command;

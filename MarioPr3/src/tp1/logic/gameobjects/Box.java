@@ -2,6 +2,9 @@
 
 package tp1.logic.gameobjects;
 
+import tp1.exceptions.ObjectParseException;
+import tp1.exceptions.OffBoardException;
+import tp1.exceptions.PositionParseException;
 import tp1.logic.Action;
 import tp1.logic.GameWorld;
 import tp1.logic.Position;
@@ -48,13 +51,26 @@ public class Box extends GameObject{
 	}
 	
 	@Override 
-	public GameObject parse(String objWords[], GameWorld game) {
-		GameObject box = super.parse(objWords, game);	
-		if(box == null && objWords.length == 3 && matchObjectName(objWords[1])) {
-			Position pos = Position.stringToPosition(objWords[0]);
-			if(pos != null && correctWord(objWords[2])) box = new Box(pos, game, emptyBox(objWords[2]));
+	public GameObject parse(String objWords[], GameWorld game) throws OffBoardException, ObjectParseException{
+		if (objWords.length > 3 && matchObjectName(objWords[1]))
+	 		throw new ObjectParseException(Messages.OBJECT_TOO_MUCH_ARGS.formatted(String.join(" ", objWords)));
+		
+		try {
+			
+			GameObject box = null;
+			if(objWords.length == 2) box = super.parse(objWords, game);	
+			else if(matchObjectName(objWords[1])) {
+				Position pos = Position.stringToPosition(objWords[0]);
+				if(correctWord(objWords[2])) box = new Box(pos, game, emptyBox(objWords[2]));
+				else throw new ObjectParseException(Messages.INVALID_BOX_STATUS.formatted(String.join(" ", objWords)));
+			}
+			return box;
+			
+		} catch (OffBoardException obe){
+			throw new OffBoardException(Messages.POSITION_OUT_OF_BOUNDS.formatted(String.join(" ", objWords)));
+		} catch (PositionParseException ppe) {
+			throw new ObjectParseException(Messages.INVALID_OBJECT_POSITION.formatted(String.join(" ", objWords)));
 		}
-	return box;
 	}
 	
 	private boolean correctWord(String string) {
