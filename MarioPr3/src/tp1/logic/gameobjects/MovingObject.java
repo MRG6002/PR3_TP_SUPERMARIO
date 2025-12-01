@@ -53,6 +53,21 @@ public abstract class MovingObject extends GameObject {
 	
 	protected abstract GameObject newObject(Position pos, GameWorld game, Action action);
 	
+	@Override 
+	public GameObject newCopy(Position pos, GameWorld game) {
+		return this.newCopy(pos, game, this.direction);
+	}
+	
+	public GameObject newCopy(Position pos, GameWorld game, Action direction) {
+		return this.newObject(pos, game, direction);
+	}
+	
+	public Mario marioNewCopy() {
+		return this.marioNewCopy(this.position.copy(), this.game, this.direction);
+	}
+	
+	protected Mario marioNewCopy(Position pos, GameWorld game, Action direction) {return null;}
+	
 	public void update() {
 		if(this.game.isSolid(this.position.go(Action.DOWN))) {
 			this.isFalling = false;

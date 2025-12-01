@@ -42,7 +42,12 @@ public class Mario extends MovingObject {
 	
 	@Override
 	protected GameObject newObject(Position pos, GameWorld game, Action dir) {
-		return new Mario(pos, game, dir, this.big);
+		return new Mario(pos, game, dir, true);
+	}
+	
+	@Override
+	protected Mario marioNewCopy(Position pos, GameWorld game, Action direction) {
+		return new Mario(pos, game, direction, this.big);
 	}
 	
 	public void connect() {

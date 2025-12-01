@@ -38,10 +38,8 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	private boolean victory;
 
 	public Game(int nLevel) {
-		if(nLevel == 0) this.initLevel0();
-		else if(nLevel == 1) this.initLevel1(); // nLevel == 1
-		else if(nLevel == 2) this.initLevel2();
-		else this.initLevelMinus1();
+		this.fileloader = new LevelGameConfiguration(nLevel, this);
+		loadFileInfo();
 		this.points = 0;
 		this.lives = 3;
 		this.exit = false;
@@ -80,14 +78,14 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	public void load(String fileName) throws GameLoadException {
 		this.fileloader = new FileGameConfiguration(fileName, this);
 		this.lives = this.fileloader.numLives();
+		this.points = this.fileloader.points();
 		loadFileInfo();
 	}
 	
 	private void loadFileInfo() {
 		this.gameObjectContainer = new GameObjectContainer();
 		this.time = this.fileloader.getRemainingTime();
-		this.points = this.fileloader.points();
-		this.mario = this.fileloader.getMario(); addCopy(this.mario);
+		this.mario = this.fileloader.getMario().marioNewCopy(); add(this.mario);
 		List<GameObject> aux = this.fileloader.getNPCObjects();
 		for(GameObject o: aux) addCopy(o);
 	}

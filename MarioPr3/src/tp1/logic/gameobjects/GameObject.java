@@ -62,6 +62,14 @@ public abstract class GameObject implements GameItem{
 	
 	public abstract GameObject newObject(Position pos, GameWorld game);
 	
+	public GameObject newCopy() {
+		return this.newCopy(this.position.copy(), this.game);
+	}
+	
+	public GameObject newCopy(Position pos, GameWorld game) {
+		return this.newObject(pos, game);
+	}
+	
 	public void update() {};
 	public boolean isSolid() {return false;}
 	public boolean receiveInteraction(Land obj) {return false;}

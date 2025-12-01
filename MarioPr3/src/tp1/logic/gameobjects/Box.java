@@ -34,6 +34,11 @@ public class Box extends GameObject{
 	}
 	
 	@Override
+	public GameObject newCopy(Position pos, GameWorld game) {
+		return new Box(pos, game, this.isOpen);
+	}
+	
+	@Override
 	public boolean isSolid() {return true;}
 	
 	@Override
@@ -95,5 +100,4 @@ public class Box extends GameObject{
 	if(this.isOpen) status = Messages.SPACE + Messages.BOX_STATUS_EMPTY;
 	return super.toString() + status;
 	}
-
 }
