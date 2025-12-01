@@ -83,8 +83,10 @@ public class FileGameConfiguration implements GameConfiguration{
 
 	@Override
 	public Mario getMario() {return this.mario;}
+	
+	@Override
+	public int getLevel() {return 0;}
 
 	@Override
 	public List<GameObject> getNPCObjects() {return this.objects;}
-
 }

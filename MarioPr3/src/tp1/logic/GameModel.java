@@ -12,7 +12,7 @@ public interface GameModel {
 	public void update();
 	public void exit();
 	public void reset();
-	public boolean reset(int level);
+	public void reset(int level) throws GameModelException;
 	public void addObject(String[] objWords) throws GameModelException;
 	public void save(String fileName) throws GameModelException;
 	public void load(String fileName) throws GameLoadException;

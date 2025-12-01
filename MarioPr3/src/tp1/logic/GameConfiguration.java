@@ -13,9 +13,9 @@ public interface GameConfiguration {
 	public int getRemainingTime();
 	public int points();
 	public int numLives();
+	public int getLevel();
 	
 	// game objects
 	public Mario getMario();
 	public List<GameObject> getNPCObjects();
-
 }

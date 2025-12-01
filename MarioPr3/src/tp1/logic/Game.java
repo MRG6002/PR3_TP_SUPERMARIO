@@ -2,9 +2,6 @@
 
 package tp1.logic;
 
-import tp1.logic.gameobjects.Land;
-import tp1.logic.gameobjects.Goomba;
-
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -14,12 +11,9 @@ import tp1.exceptions.GameLoadException;
 import tp1.exceptions.GameModelException;
 import tp1.exceptions.ObjectParseException;
 import tp1.exceptions.OffBoardException;
-import tp1.logic.gameobjects.Box;
-import tp1.logic.gameobjects.ExitDoor;
 import tp1.logic.gameobjects.GameObject;
 import tp1.logic.gameobjects.GameObjectFactory;
 import tp1.logic.gameobjects.Mario;
-import tp1.logic.gameobjects.Mushroom;
 import tp1.view.Messages;
 
 public class Game implements GameModel, GameStatus, GameWorld {
@@ -38,33 +32,32 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	private boolean victory;
 
 	public Game(int nLevel) {
-		if(nLevel == 0) this.initLevel0();
-		else if(nLevel == 1) this.initLevel1(); // nLevel == 1
-		else if(nLevel == 2) this.initLevel2();
-		else this.initLevelMinus1();
-		this.points = 0;
-		this.lives = 3;
-		this.exit = false;
-		this.victory = false; 
-	}//this.fileloader = new LevelGameConfiguration(nLevel, this);
-	//loadFileInfo();
-	
-	public void reset() {
-		if(fileloader != null) loadFileInfo();
-		else reset(this.level);
+		try {
+			this.fileloader = new LevelGameConfiguration(nLevel, this);
+		} catch (GameModelException gme) {
+			this.fileloader = new LevelGameConfiguration(this);
+		} finally {
+			loadFileInfo();
+			this.points = 0;
+			this.lives = 3;
+			this.exit = false;
+			this.victory = false;
+		}
 	}
 	
-	public boolean reset(int level) {
-		boolean levelExists = true;
-		this.fileloader = null;
-		switch (level) {
-		case 0:{this.initLevel0();} break;
-		case 1:{this.initLevel1();} break;
-		case 2:{this.initLevel2();} break;
-		case -1:{this.initLevelMinus1();} break;
-		default: levelExists = false;
+	public void reset() {
+		loadFileInfo();
+		if(this.fileloader.getLevel() == -1) {
+			this.points = this.fileloader.points();
+			this.lives = this.fileloader.numLives();
 		}
-		return levelExists;
+	}
+	
+	public void reset(int level) throws GameModelException {
+		this.fileloader = new LevelGameConfiguration(level, this);
+		reset();
+		this.exit = false;
+		this.victory = false;
 	}
 	
 	public void save(String fileName) throws GameModelException {
@@ -88,7 +81,11 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	private void loadFileInfo() {
 		this.gameObjectContainer = new GameObjectContainer();
 		this.time = this.fileloader.getRemainingTime();
-		this.mario = this.fileloader.getMario().marioNewCopy(); add(this.mario);
+		this.mario = this.fileloader.getMario(); 
+		if(this.mario != null) {
+			this.mario = this.mario.marioNewCopy();
+			add(this.mario);
+		}
 		List<GameObject> aux = this.fileloader.getNPCObjects();
 		for(GameObject o: aux) addCopy(o);
 	}
@@ -193,73 +190,5 @@ public class Game implements GameModel, GameStatus, GameWorld {
 		else stringBuilder.append(Messages.LINE.formatted(" NO VICTORY YET"));
 		stringBuilder.append(this.gameObjectContainer.toString());
 	return stringBuilder.toString();
-	}
-	
-	private void initLevelMinus1() {
-		this.time = 100;
-		this.level = -1;
-		this.lives = 3;
-		this.points = 0;
-		gameObjectContainer = new GameObjectContainer();
-	}
-	
-	private void initLevel0() {
-		this.time = 100;
-		this.level = 0;
-		// 1. Lands
-		gameObjectContainer = new GameObjectContainer();
-		for(int col = 0; col < 15; col++) {
-			gameObjectContainer.add(new Land(new Position(13, col), this));
-			gameObjectContainer.add(new Land(new Position(14, col), this));		
-		}
-		gameObjectContainer.add(new Land(new Position(Game.DIM_Y - 3, 9), this));
-		gameObjectContainer.add(new Land(new Position(Game.DIM_Y - 3, 12), this));
-		for(int col = 17; col < Game.DIM_X; col++) {
-			gameObjectContainer.add(new Land(new Position(Game.DIM_Y - 2, col), this));
-			gameObjectContainer.add(new Land(new Position(Game.DIM_Y - 1, col), this));		
-		}
-		gameObjectContainer.add(new Land(new Position(9, 2), this));
-		gameObjectContainer.add(new Land(new Position(9, 5), this));
-		gameObjectContainer.add(new Land(new Position(9, 6), this));
-		gameObjectContainer.add(new Land(new Position(9, 7), this));
-		gameObjectContainer.add(new Land(new Position(5, 6), this));
-
-		int tamX = 8;
-		int posIniX = Game.DIM_X - 3 - tamX, posIniY = Game.DIM_Y - 3;
-		
-		for(int col = 0; col < tamX; col++) {
-			for (int fila = 0; fila < col + 1; fila++) {
-				gameObjectContainer.add(new Land(new Position(posIniY - fila, posIniX + col), this));
-			}
-		}
-		// 2. ExitDoor
-		gameObjectContainer.add(new ExitDoor(new Position(Game.DIM_Y - 3, Game.DIM_X - 1), this));
-		// 3. Mario
-		this.mario = new Mario(new Position(Game.DIM_Y - 3, 0), this);
-		gameObjectContainer.add(this.mario);
-		// 4. Goombas
-		gameObjectContainer.add(new Goomba(new Position(0, 19), this));
-	}
-	
-	private void initLevel1() {
-		this.initLevel0();
-		this.level = 1;
-		// 4. Goombas adicionales
-		gameObjectContainer.add(new Goomba(new Position(12, 6), this));
-		gameObjectContainer.add(new Goomba(new Position(12, 8), this));
-		gameObjectContainer.add(new Goomba(new Position(10, 10), this));
-		gameObjectContainer.add(new Goomba(new Position(12, 11), this));
-		gameObjectContainer.add(new Goomba(new Position(12, 14), this));
-		gameObjectContainer.add(new Goomba(new Position(4, 6), this));
-	}
-	
-	private void initLevel2() {
-		this.initLevel1();
-		this.level = 2;
-		//5. Mushrooms
-		gameObjectContainer.add(new Mushroom(new Position(2, 20), this));
-		gameObjectContainer.add(new Mushroom(new Position(12, 8), this));
-		//6. Boxes
-		gameObjectContainer.add(new Box(new Position(9, 4), this));
 	}
 }

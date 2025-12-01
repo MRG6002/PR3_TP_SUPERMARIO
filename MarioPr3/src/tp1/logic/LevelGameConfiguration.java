@@ -3,7 +3,7 @@ package tp1.logic;
 import java.util.ArrayList;
 import java.util.List;
 
-import tp1.exceptions.CommandExecuteException;
+import tp1.exceptions.GameModelException;
 import tp1.logic.gameobjects.Box;
 import tp1.logic.gameobjects.ExitDoor;
 import tp1.logic.gameobjects.GameObject;
@@ -18,20 +18,25 @@ public class LevelGameConfiguration implements GameConfiguration{
 	private int time;
 	private int points;
 	private int lives;
+	private int level;
 	
-	public LevelGameConfiguration(int level, GameWorld game) throws CommandExecuteException{
+	public LevelGameConfiguration(int level, GameWorld game) throws GameModelException{
+		this.level = level;
 		switch (level) {
 		case 0:{this.initLevel0(game);} break;
 		case 1:{this.initLevel1(game);} break;
 		case 2:{this.initLevel2(game);} break;
 		case -1:{this.initLevelMinus1(game);} break;
-		default: throw new CommandExecuteException();
+		default: throw new GameModelException();
 		}
 	}
 	
 	public LevelGameConfiguration(GameWorld game) {
-		this.initLevel1(game);
+		this.initLevelMinus1(game);
 	}
+	
+	@Override
+	public int getLevel() {return this.level;}
 	
 	@Override
 	public int getRemainingTime() {return this.time;}
