@@ -38,13 +38,16 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	private boolean victory;
 
 	public Game(int nLevel) {
-		this.fileloader = new LevelGameConfiguration(nLevel, this);
-		loadFileInfo();
+		if(nLevel == 0) this.initLevel0();
+		else if(nLevel == 1) this.initLevel1(); // nLevel == 1
+		else if(nLevel == 2) this.initLevel2();
+		else this.initLevelMinus1();
 		this.points = 0;
 		this.lives = 3;
 		this.exit = false;
 		this.victory = false; 
-	}
+	}//this.fileloader = new LevelGameConfiguration(nLevel, this);
+	//loadFileInfo();
 	
 	public void reset() {
 		if(fileloader != null) loadFileInfo();
