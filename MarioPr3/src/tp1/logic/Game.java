@@ -82,16 +82,9 @@ public class Game implements GameModel, GameStatus, GameWorld {
 		this.gameObjectContainer = new GameObjectContainer();
 		this.time = this.fileloader.getRemainingTime();
 		this.mario = this.fileloader.getMario(); 
-		if(this.mario != null) {
-			this.mario = this.mario.marioNewCopy();
-			add(this.mario);
-		}
+		if(this.mario != null) add(this.mario);
 		List<GameObject> aux = this.fileloader.getNPCObjects();
-		for(GameObject o: aux) addCopy(o);
-	}
-	
-	private void addCopy(GameObject object) {
-		add(object.newCopy());
+		for(GameObject o: aux) add(o);
 	}
 	
 	//funciones generales
@@ -144,7 +137,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	}
 	
 	public void addAction(Action action) {
-		this.mario.addAction(action);
+		if(this.mario != null) this.mario.addAction(action);
 	}
 	
 	public void marioExited() {
@@ -161,16 +154,14 @@ public class Game implements GameModel, GameStatus, GameWorld {
 		this.gameObjectContainer.doInteractionsFrom(obj);
 	}
 	
-	@Override
-	public void connect(Mario mario) {
-		this.mario = mario;
-	}
-	
 	public void addObject(String [] objWords) throws OffBoardException, ObjectParseException{
-		GameObject obj = GameObjectFactory.parse(objWords, this);
-		if (obj == null) throw new ObjectParseException(Messages.UNKNOWN_GAME_OBJECT.formatted(String.join(" ", objWords)));
-		this.add(obj);
-		obj.connect();
+		if(this.mario == null) this.mario = new Mario(new Position(0,0), this);
+		Mario mario = this.mario.parse(objWords, this);
+		GameObject object = mario;
+		
+		if(mario != null) this.mario = mario;
+		else object = GameObjectFactory.parse(objWords, this);
+		this.add(object);
 	}
 	
 	@Override
@@ -178,7 +169,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 		this.gameObjectContainer.add(obj);
 	}
 
-	//toString y niveles
+	//toString
 	@Override
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();

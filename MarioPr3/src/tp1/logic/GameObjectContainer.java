@@ -50,7 +50,7 @@ public class GameObjectContainer {
 	
 	public boolean isSolid(Position position) {
 		for(GameObject o:this.objects) {
-			if(o.isInPosition(position)) return o.isSolid();
+			if(o.isInPosition(position) && o.isSolid()) return true;
 		}
 	return false;
 	}

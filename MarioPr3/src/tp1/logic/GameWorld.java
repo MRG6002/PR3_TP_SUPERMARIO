@@ -2,7 +2,6 @@
 
 package tp1.logic;
 
-import tp1.logic.gameobjects.Mario;
 import tp1.logic.gameobjects.GameObject;
 
 public interface GameWorld {
@@ -13,5 +12,4 @@ public interface GameWorld {
 	public boolean isSolid(Position position);
 	public void marioExited();
 	public void add(GameObject obj);
-	public void connect(Mario mario);
 }

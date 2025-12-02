@@ -61,16 +61,23 @@ public class FileGameConfiguration implements GameConfiguration{
 		while(objectWord != null) {
 			objectWords = objectWord.split(" ");
 			if(objectWords.length < 2) throw new GameLoadException(Messages.INCORRECT_GAME_STATUS.formatted(objectWord));
-			if(objectWords[1].equalsIgnoreCase(Messages.MARIO_NAME) 
-					|| objectWords[1].equalsIgnoreCase(Messages.MARIO_SHORTCUT)) {
-				mario = (Mario) GameObjectFactory.parse(objectWords, game);
-			}
+			
+			if(this.mario == null) this.mario = new Mario(new Position(0,0), game);
+			Mario mario = this.mario.parse(objectWords, game);
+			GameObject object = mario;
+			
+			if(mario != null) this.mario = mario;
 			else {
-				objects.add(GameObjectFactory.parse(objectWords, game));
+				object = GameObjectFactory.parse(objectWords, game);
+				this.objects.add(object);
 			}
 			objectWord = in.readLine();
 		}
 	}
+	
+	/*
+	 * 		
+	 */
 	
 	@Override
 	public int getRemainingTime() {return this.time;}
@@ -80,13 +87,21 @@ public class FileGameConfiguration implements GameConfiguration{
 
 	@Override
 	public int numLives() {return this.lives;}
-
-	@Override
-	public Mario getMario() {return this.mario;}
 	
 	@Override
 	public int getLevel() {return 0;}
 
 	@Override
-	public List<GameObject> getNPCObjects() {return this.objects;}
+	public Mario getMario() {
+		Mario mario = this.mario;
+		if(this.mario != null) mario = mario.marioNewCopy();
+		return mario;
+	}
+
+	@Override
+	public List<GameObject> getNPCObjects() {
+		List<GameObject> aux = new ArrayList<>();
+		for(GameObject o: this.objects) aux.add(o.newCopy());
+		return aux;
+	}
 }

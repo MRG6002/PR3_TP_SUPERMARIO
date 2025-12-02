@@ -48,10 +48,18 @@ public class LevelGameConfiguration implements GameConfiguration{
 	public int numLives() {return this.lives;}
 
 	@Override
-	public Mario getMario() {return this.mario;}
+	public Mario getMario() {
+		Mario mario = this.mario;
+		if(this.mario != null) mario = mario.marioNewCopy();
+		return mario;
+	}
 
 	@Override
-	public List<GameObject> getNPCObjects() {return this.objects;}
+	public List<GameObject> getNPCObjects() {
+		List<GameObject> aux = new ArrayList<>();
+		for(GameObject o: this.objects) aux.add(o.newCopy());
+		return aux;
+	}
 	
 	
 	

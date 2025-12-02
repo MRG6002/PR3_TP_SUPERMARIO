@@ -48,10 +48,6 @@ public class Mario extends MovingObject {
 		return new Mario(pos, game, direction, this.big);
 	}
 	
-	public void connect() {
-		this.game.connect(this);
-	}
-	
 	//movimiento de Mario
 	@Override
 	public boolean isInPosition(Position position) {
