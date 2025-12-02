@@ -3,10 +3,8 @@
 package tp1.logic.gameobjects;
 
 import tp1.logic.Position;
-import tp1.exceptions.ActionParseException;
 import tp1.exceptions.ObjectParseException;
 import tp1.exceptions.OffBoardException;
-import tp1.exceptions.PositionParseException;
 import tp1.logic.Action;
 import tp1.logic.ActionList;
 import tp1.logic.GameWorld;
@@ -166,7 +164,7 @@ public class Mario extends MovingObject {
 	 		throw new ObjectParseException(Messages.OBJECT_TOO_MUCH_ARGS.formatted(String.join(" ", objWords)));
 
 		GameObject mario = super.parse(objWords, game);
-		if(objWords.length < 3)	{
+		if(mario != null && objWords.length < 3)	{
 			if (validSize(objWords[3])) this.big = isBig(objWords[3]);
 			else throw new ObjectParseException(Messages.INVALID_MARIO_STATUS.formatted(String.join(" ", objWords)));
 		}
