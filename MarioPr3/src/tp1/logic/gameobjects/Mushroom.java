@@ -2,6 +2,8 @@
 
 package tp1.logic.gameobjects;
 
+import tp1.exceptions.ObjectParseException;
+import tp1.exceptions.OffBoardException;
 import tp1.logic.Action;
 import tp1.logic.GameWorld;
 import tp1.logic.Position;
@@ -31,6 +33,14 @@ public class Mushroom extends MovingObject{
 	@Override
 	protected GameObject newObject(Position pos, GameWorld game, Action dir) {
 		return new Mushroom(pos, game, dir);
+	}
+	
+	@Override 
+	public Mushroom parse(String objWords[], GameWorld game) throws OffBoardException, ObjectParseException {
+		Mushroom mushroom = (Mushroom) super.parse(objWords, game);
+		if (mushroom != null && objWords.length > 3)
+	 		throw new ObjectParseException(Messages.OBJECT_TOO_MUCH_ARGS.formatted(String.join(" ", objWords)));
+		return mushroom;
 	}
 
 	@Override

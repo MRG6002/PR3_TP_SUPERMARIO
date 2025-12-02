@@ -3,6 +3,8 @@
 package tp1.logic.gameobjects;
 
 import tp1.logic.Position;
+import tp1.exceptions.ObjectParseException;
+import tp1.exceptions.OffBoardException;
 import tp1.logic.Action;
 import tp1.logic.GameWorld;
 
@@ -46,5 +48,13 @@ public class Goomba extends MovingObject {
 		super.dead();
 		obj.receiveInteraction(this);
 	return false;
+	}
+	
+	@Override 
+	public Goomba parse(String objWords[], GameWorld game) throws OffBoardException, ObjectParseException {
+		Goomba goomba = (Goomba) super.parse(objWords, game);
+		if (goomba != null && objWords.length > 3)
+	 		throw new ObjectParseException(Messages.OBJECT_TOO_MUCH_ARGS.formatted(String.join(" ", objWords)));
+		return goomba;
 	}
 }

@@ -86,13 +86,10 @@ public abstract class GameObject implements GameItem{
 	}
 	
 	public GameObject parse(String objWords[], GameWorld game) throws OffBoardException, ObjectParseException {
-		if (objWords.length > 2 && matchObjectName(objWords[1]))
-	 		throw new ObjectParseException(Messages.OBJECT_TOO_MUCH_ARGS.formatted(String.join(" ", objWords)));
-		
 		try {
 			
 			GameObject obj = null;
-			if(objWords.length == 2 && matchObjectName(objWords[1])) {
+			if(objWords.length >= 2 && matchObjectName(objWords[1])) {
 				Position pos = Position.stringToPosition(objWords[0]);
 				obj = this.newObject(pos, game);
 			}
