@@ -26,7 +26,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	private int time;
 	private int points;
 	private int lives;
-	private int level;
+
 	private Mario mario;
 	private boolean exit;
 	private boolean victory;
@@ -183,7 +183,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		
-		stringBuilder.append("GAME: LEVEL ").append(this.level).append(Messages.SPACE).append(this.time).append("s ").append(this.points).append("pts ").append(this.lives).append("lives ");
+		stringBuilder.append("GAME: ").append(Messages.SPACE).append(this.time).append("s ").append(this.points).append("pts ").append(this.lives).append("lives ");
 		if(this.exit) stringBuilder.append("EXITED");
 		else stringBuilder.append("NOT EXITED YET");
 		if(this.victory) stringBuilder.append(Messages.LINE.formatted(" VICTORY"));
