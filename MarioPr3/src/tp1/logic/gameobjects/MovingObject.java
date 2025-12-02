@@ -22,13 +22,13 @@ public abstract class MovingObject extends GameObject {
 	}
 	
 	@Override
-	public GameObject parse(String objWords[], GameWorld game) throws OffBoardException, ObjectParseException {
+	public MovingObject parse(String objWords[], GameWorld game) throws OffBoardException, ObjectParseException {
 		try {
 			
-			GameObject obj = super.parse(objWords, game);
-			if(objWords.length >= 2) {
+			MovingObject obj = (MovingObject) super.parse(objWords, game);
+			if(obj != null && objWords.length > 2) {
 				Action dir = Action.parseAction(objWords[2]);
-				if(validDirection(dir)) this.direction = dir;
+				if(validDirection(dir)) obj.direction = dir;
 				else throw new ObjectParseException(Messages.INVALID_MO_DIRECTION.formatted(String.join(" ", objWords)));
 			}
 			return obj;

@@ -159,13 +159,13 @@ public class Mario extends MovingObject {
 	
 	//strings y parse de Mario
 	@Override
-	public GameObject parse(String objWords[], GameWorld game) throws OffBoardException, ObjectParseException {
+	public Mario parse(String objWords[], GameWorld game) throws OffBoardException, ObjectParseException {
 		if (objWords.length > 4 && matchObjectName(objWords[1]))
 	 		throw new ObjectParseException(Messages.OBJECT_TOO_MUCH_ARGS.formatted(String.join(" ", objWords)));
 
-		GameObject mario = super.parse(objWords, game);
-		if(mario != null && objWords.length < 3)	{
-			if (validSize(objWords[3])) this.big = isBig(objWords[3]);
+		Mario mario = (Mario) super.parse(objWords, game);
+		if(mario != null && objWords.length > 3)	{
+			if (validSize(objWords[3])) mario.big = isBig(objWords[3]);
 			else throw new ObjectParseException(Messages.INVALID_MARIO_STATUS.formatted(String.join(" ", objWords)));
 		}
 		return mario;

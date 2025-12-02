@@ -60,8 +60,8 @@ public class Box extends GameObject{
 	 		throw new ObjectParseException(Messages.OBJECT_TOO_MUCH_ARGS.formatted(String.join(" ", objWords)));
 
 		Box box = (Box) super.parse(objWords, game);
-		if(box != null && objWords.length >= 2){
-			if(correctWord(objWords[2])) this.isOpen = emptyBox(objWords[2]);
+		if(box != null && objWords.length > 2){
+			if(correctWord(objWords[2])) box.isOpen = emptyBox(objWords[2]);
 			else throw new ObjectParseException(Messages.INVALID_BOX_STATUS.formatted(String.join(" ", objWords)));
 		}
 		return box;
