@@ -159,7 +159,10 @@ public class Game implements GameModel, GameStatus, GameWorld {
 		Mario mario = this.mario.parse(objWords, this);
 		GameObject object = mario;
 		
-		if(mario != null) this.mario = mario;
+		if(mario != null) {
+			this.mario.dead();
+			this.mario = mario;
+		}
 		else object = GameObjectFactory.parse(objWords, this);
 		this.add(object);
 	}

@@ -49,8 +49,8 @@ public class LevelGameConfiguration implements GameConfiguration{
 
 	@Override
 	public Mario getMario() {
-		Mario mario = this.mario;
-		if(this.mario != null) mario = mario.marioNewCopy();
+		Mario mario = null;
+		if(this.mario != null) mario = this.mario.marioNewCopy();
 		return mario;
 	}
 
