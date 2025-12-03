@@ -67,14 +67,17 @@ public abstract class MovingObject extends GameObject {
 	
 	protected void doAction(Action action) {
 		this.isFalling = false;
-		if() this.direction = action.opposite();
+		if(lateralCollision(action)) this.direction = action.opposite();
 		else {
 			this.direction = action;
 			super.move(action);
 		}
 	}
 	
-	protected boolean lateralCollision()
+	protected boolean lateralCollision(Action action) {
+		return this.game.isSolid(this.position.go(action)) || 
+				this.position.go(action).isBorder();
+	}
 	
 	protected boolean freeFalling() {
 		boolean freeFalling = false;

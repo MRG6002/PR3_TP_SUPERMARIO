@@ -16,6 +16,7 @@ public class Mario extends MovingObject {
 	private static final String SHORTCUT = Messages.MARIO_SHORTCUT;
 	private boolean big;
 	private boolean headCollision;
+	private boolean jumpedFromFloor;
 	private ActionList actionList;
 
 	public Mario(Position position, GameWorld game) {
@@ -65,6 +66,7 @@ public class Mario extends MovingObject {
 	}
 	
 	private void playerMovement() {
+		this.jumpedFromFloor = false;
 		for(Action action: this.actionList) {
 			this.headCollision = false;
 			if(action == Action.DOWN) {
@@ -74,11 +76,20 @@ public class Mario extends MovingObject {
 					if(!super.isAlive()) this.game.marioDead();
 				}
 			}
-			else if(action == Action.UP) super.up();
+			else if(action == Action.UP) {
+				if(flightRestriction()) {
+					super.up(); 
+					this.jumpedFromFloor = true;
+				}
+			}
 			else if (action == Action.STOP) super.stop();
 			else super.doAction(action);
 		}
 		this.actionList.clear();
+	}
+	
+	private boolean flightRestriction() {
+		return jumpedFromFloor || this.game.isSolid(this.position.go(Action.DOWN));
 	}
 
 	public void addAction(Action action) {
@@ -99,6 +110,12 @@ public class Mario extends MovingObject {
 			this.headCollision = this.game.isSolid(pos) || position.isBorder();
 		}
 		return this.headCollision;
+	}
+	
+	@Override
+	protected boolean lateralCollision(Action action) {
+		Position pos = this.position.go(Action.UP).go(action);
+		return super.lateralCollision(action) || (this.big && (this.game.isSolid(pos) || pos.isBorder()));
 	}
 	
 	//interacciones de Mario

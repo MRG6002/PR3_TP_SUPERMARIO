@@ -32,7 +32,7 @@ public class LevelGameConfiguration implements GameConfiguration{
 	}
 	
 	public LevelGameConfiguration(GameWorld game) {
-		this.initLevelMinus1(game);
+		this.initLevel1(game);
 	}
 	
 	@Override
