@@ -34,7 +34,7 @@ public class Main {
 					
 			controller.run();
 		} 
-		catch (NumberFormatException e) {
+		catch(NumberFormatException e) {
 			System.out.println(String.format(Messages.LEVEL_NOT_A_NUMBER_ERROR, args[0]));
 		}
 	}

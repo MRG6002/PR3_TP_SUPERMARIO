@@ -5,10 +5,14 @@ package tp1.control.commands;
 import java.util.Arrays;
 import java.util.List;
 
+import tp1.exceptions.CommandParseException;
+
 import tp1.view.Messages;
 
 public class CommandGenerator {
 	private static final List<Command> availableCommands = Arrays.asList(
+		new LoadCommand(),
+		new SaveCommand(),
 		new AddObjectCommand(),
 		new ActionCommand(),
 		new UpdateCommand(),
@@ -16,15 +20,14 @@ public class CommandGenerator {
 		new HelpCommand(),
 		new ExitCommand()
 	);
-
-	public static Command parse(String[] commandWords) {
-		Command command = null;
-		 
+	
+	public static Command parse(String[] commandWords) throws CommandParseException {
 		for(Command aux: availableCommands) {
-			command = aux.parse(commandWords);
+			Command command = aux.parse(commandWords);
+			
 			if(command != null) return command;
 		}
-	return command;
+		throw new CommandParseException(Messages.UNKNOWN_COMMAND.formatted(commandWords[0]));
 	}
 		
 	public static String commandHelp() {

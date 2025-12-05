@@ -2,8 +2,9 @@
 
 package tp1.logic.gameobjects;
 
-import java.util.Arrays;
-
+import tp1.exceptions.ActionParseException;
+import tp1.exceptions.ObjectParseException;
+import tp1.exceptions.OffBoardException;
 import tp1.logic.Action;
 import tp1.logic.GameWorld;
 import tp1.logic.Position;
@@ -36,16 +37,16 @@ public abstract class MovingObject extends GameObject {
 	@Override
 	public void update() {
 		if(this.isSolid(this.position, Action.DOWN)) this.doAction(this.direction);
-		else this.freeFalling();
+		else this.freeFalling();	
 	}
 	
 	private boolean isValidPosition(Position position, Action direction) {
 	return position.go(direction).isValid();
 	}
 	
-	protected void doAction(Action action) {
+	protected void doAction(Action action) { // MODIFICAR JUNTO A BOX?
 		this.isFalling = false;
-		if(this.isSolid(this.position, action) || !isValidPosition(this.position, action)) this.direction = Action.opposite(action);
+		if(this.isSolid(this.position, action) || this.isSolid(headPosition(), action) || !isValidPosition(this.position, action)) this.direction = Action.opposite(action);
 		else {
 			this.direction = action;
 			super.move(action);
@@ -59,7 +60,6 @@ public abstract class MovingObject extends GameObject {
 			freeFalling = true;
 			this.isFalling = true;
 			super.move(Action.DOWN);
-			this.isFalling = false;
 			if(!this.position.isValid()) super.dead(); // Si sale del tablero por abajo, muere
 		}
 	return freeFalling;
@@ -81,23 +81,6 @@ public abstract class MovingObject extends GameObject {
 	
 	protected boolean isFalling() {
 	return this.isFalling;
-	}	
-	
-	@Override
-	public String toString() {
-		StringBuilder stringBuilder = new StringBuilder();
-		
-		stringBuilder.append(this.position.toString()).append(Messages.SPACE).append(this.direction.toString()).append(Messages.SPACE).append("NOT SOLID").append(Messages.SPACE);
-		if(this.isAlive()) stringBuilder.append("ALIVE");
-		else stringBuilder.append("DEAD");
-	return stringBuilder.toString();
-	}
-	
-	private int sizedTo(String[] objectWords) {
-		int to = objectWords.length;
-		
-		if(to == 3) to--;
-	return to;
 	}
 	
 	protected boolean validDirection(Action direction) {
@@ -109,16 +92,36 @@ public abstract class MovingObject extends GameObject {
 	}
 	
 	@Override
-	public MovingObject parse(String[] objectWords, GameWorld game) {
-		int to = this.sizedTo(objectWords);
-		MovingObject movingObject = (MovingObject) super.parse(Arrays.copyOfRange(objectWords, 0, to), game);
-		
-		if(movingObject != null && objectWords.length == 3) {
-			Action direction = Action.parseAction(objectWords[2]);
+	public MovingObject parse(String[] objectWords, GameWorld game) throws OffBoardException, ObjectParseException {
+		try {
+			MovingObject movingObject = (MovingObject) super.parse(objectWords, game);
+			
+			if(movingObject != null && 3 <= objectWords.length) {
+				Action direction = Action.parseAction(objectWords[2]);
 				
-			if(validDirection(direction)) movingObject.updateDirection(direction);
-			else movingObject = null;
+				if(validDirection(direction)) movingObject.updateDirection(direction);
+				else throw new ObjectParseException(Messages.INVALID_MOVING_OBJECT_DIRECTION.formatted(String.join(" ", objectWords)));
+			}
+			return movingObject;
 		}
+		catch(ActionParseException ape){
+			throw new ObjectParseException(Messages.UNKNOWN_MOVING_OBJECT_DIRECTION.formatted(String.join(" ", objectWords)), ape);
+		}
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder stringBuilder = new StringBuilder();
+		
+		stringBuilder.append(super.toString()).append(Messages.SPACE).append(this.direction.toString());
+	return stringBuilder.toString();
+	};
+	
+	@Override
+	public MovingObject newCopy() {
+		MovingObject movingObject = (MovingObject) super.newCopy();
+		
+		movingObject.updateDirection(this.direction);
 	return movingObject;
 	}
 	

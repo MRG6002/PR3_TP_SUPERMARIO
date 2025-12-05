@@ -5,6 +5,9 @@ package tp1.control.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import tp1.exceptions.ActionParseException;
+import tp1.exceptions.CommandParseException;
+
 import tp1.logic.Action;
 import tp1.logic.GameModel;
 
@@ -32,21 +35,30 @@ public class ActionCommand extends AbstractCommand {
 	public void execute(GameModel game, GameView view) {
 		for(Action action: this.actionList) game.addAction(action);
 		game.update();
-		view.showGame();
+		view.showGame();	
 	}
 	
 	@Override
-	public Command parse(String[] commandWords) {
-		Command command = null;
+	public ActionCommand parse(String[] commandWords) throws CommandParseException {
+		ActionCommand actionCommand = null;
 		
-		if(1 < commandWords.length && super.matchCommandName(commandWords[0])) {
-			int i = 1; // commandWords[0] == action
-			List<Action> actionList = new ArrayList<>();
-			
-			while(i < commandWords.length && Action.parseAction(commandWords[i]) != null) actionList.addLast(Action.parseAction(commandWords[i++]));
-			if(i != commandWords.length) actionList.clear();
-			command = new ActionCommand(actionList);
+		if(0 < commandWords.length && super.matchCommandName(commandWords[0])) {
+			if(commandWords.length == 1) throw new CommandParseException(Messages.COMMAND_INCORRECT_PARAMETER_NUMBER);
+			else {
+				int i = 1; // commandWords[0] == action
+				List<Action> actionList = new ArrayList<>();
+				
+				while(i < commandWords.length) {
+					try {
+						actionList.addLast(Action.parseAction(commandWords[i++]));
+					} 
+					catch(ActionParseException ape) {
+					}
+				}
+				if(actionList.size() == 0) throw new CommandParseException(Messages.EMPTY_ACTION_LIST);
+				actionCommand = new ActionCommand(actionList);
+			}
 		}
-	return command;
+	return actionCommand;
 	}
 }

@@ -2,8 +2,8 @@
 
 package tp1.logic.gameobjects;
 
-import java.util.Arrays;
-
+import tp1.exceptions.ObjectParseException;
+import tp1.exceptions.OffBoardException;
 import tp1.logic.Action;
 import tp1.logic.GameWorld;
 import tp1.logic.Position;
@@ -49,17 +49,7 @@ public class Box extends GameObject {
 	}
 	
 	@Override
-	public String toString() {
-		StringBuilder stringBuilder = new StringBuilder();
-		
-		stringBuilder.append("BOX: ").append(this.position.toString()).append(" SOLID ");
-		if(this.full) stringBuilder.append("FULL");
-		else stringBuilder.append("EMPTY");
-	return stringBuilder.toString();
-	}
-	
-	@Override
-	public boolean interactWith(GameItem gameItem) {
+	public boolean interactWith(GameItem gameItem) { // MODIFICAR
 		boolean canInteract = this.isAlive() && gameItem.isAlive() && this.full && gameItem.isInPosition(this.position.go(Action.DOWN)) && gameItem.receiveInteraction(this);
 		boolean doInteract = false;
 		
@@ -81,13 +71,6 @@ public class Box extends GameObject {
 	return new Box(position, game, true);
 	}
 	
-	private int sizedTo(String[] objectWords) {
-		int to = objectWords.length;
-		
-		if(to == 3) to--;
-	return to;
-	}
-	
 	private boolean validState(String state) {
 	return state.equalsIgnoreCase("full") || state.equalsIgnoreCase("f") || state.equalsIgnoreCase("empty") || state.equalsIgnoreCase("e");
 	}
@@ -97,14 +80,38 @@ public class Box extends GameObject {
 	}
 	
 	@Override
-	public Box parse(String[] objectWords, GameWorld game) {
-		int to = this.sizedTo(objectWords);
-		Box box = (Box) super.parse(Arrays.copyOfRange(objectWords, 0, to), game);
+	public Box parse(String[] objectWords, GameWorld game) throws OffBoardException, ObjectParseException {
+		Box box = (Box) super.parse(objectWords, game);
 		
-		if(box != null && objectWords.length == 3) {
-			if(this.validState(objectWords[2])) box.updateState(objectWords[2]);
-			else box = null;
+		if(box != null && 2 < objectWords.length) {
+			if(objectWords.length == 3) {
+				if(this.validState(objectWords[2])) box.updateState(objectWords[2]);
+				else throw new ObjectParseException(Messages.INVALID_BOX_STATUS.formatted(String.join(" ", objectWords)));
+			}
+			else throw new ObjectParseException(Messages.OBJECT_TOO_MUCH_ARGS.formatted(String.join(" ", objectWords)));
 		}
+	return box;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder stringBuilder = new StringBuilder();
+		
+		stringBuilder.append(super.toString()).append(Messages.SPACE);
+		if(this.full) stringBuilder.append("FULL");
+		else stringBuilder.append("EMPTY");
+	return stringBuilder.toString();
+	}
+	
+	private void updateState(boolean full) {
+		this.full = full;
+	}
+	
+	@Override
+	public Box newCopy() {
+		Box box = (Box) super.newCopy();
+		
+		box.updateState(this.full);
 	return box;
 	}
 }

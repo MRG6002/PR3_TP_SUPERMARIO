@@ -6,7 +6,7 @@ import tp1.util.MyStringUtils;
 
 public class Messages {
 	
-	public static final String VERSION = "2.X";
+	public static final String VERSION = "3.0";
 
 	public static final String GAME_NAME = "MarioBross";
 
@@ -47,10 +47,10 @@ public class Messages {
 	public static final String LINE_2TABS = TAB + LINE_TAB;
 
 //Commands
-	// Errores de factorías:
+	// Command factory errors:
 	public static final String UNKNOWN_COMMAND = "Unknown command: %s";
 	public static final String INVALID_GAME_OBJECT = "Invalid game object: %s";
-	// Errores de commandos:
+	// Command errors:
 	public static final String COMMAND_PARAMETERS_MISSING = "Missing parameters";
 	public static final String COMMAND_INCORRECT_PARAMETER_NUMBER = "Incorrect parameter number";
 	public static final String UNKNOWN_ACTION = "Unknown action: \"%s\"";
@@ -58,8 +58,28 @@ public class Messages {
 	public static final String INVALID_COMMAND = "Invalid command: %s";
 	public static final String INVALID_COMMAND_PARAMETERS = "Invalid command parameters";
 	public static final String ERROR_COMMAND_EXECUTE = "Command execute problem";
-
+	public static final String EMPTY_ACTION_LIST = "Incorrect 'action command', because the action list is empty (all actions are unknown).";
+	public static final String UNABLE_TO_LOAD = "Unable to load game configuration from file \"%s\"";
+	public static final String FILE_NOT_FOUND = "File not found: \"%s\"";
+	public static final String INCORRECT_GAME_STATUS = "Incorrect game status \"%s\"";
+	public static final String INVALID_FILE_CONFIGURATION = "Invalid file \"%s\" configuration";
 	
+//GameObjects
+	// GameObject factory errors:
+	public static final String UNKNOWN_GAMEOBJECT = "Unknown game object: \"%s\"";
+	// GameObject errors:
+	public static final String OBJECT_TOO_MUCH_ARGS = "Object parse error, too much args: \"%s\"";
+	public static final String OBJECT_POSITION_OFF_BOARD = "Object position is off board: \"%s\"";
+	public static final String INVALID_OBJECT_POSITION = "Invalid object position: \"%s\"";
+	public static final String UNKNOWN_MOVING_OBJECT_DIRECTION = "Unknown moving object direction: \"%s\"";
+	public static final String INVALID_MOVING_OBJECT_DIRECTION = "Invalid moving object direction: \"%s\"";
+	public static final String INVALID_BOX_STATUS = " Invalid Box status: \"%s\"";
+	public static final String INVALID_MARIO_SIZE = "Invalid Mario size: \"%s\"";
+
+	// Position errors
+	public static final String INVALID_POSITION = "Invalid position: \"%s\"";
+
+
 	public static final String HELP_AVAILABLE_COMMANDS = "Available commands:";
 	@Deprecated
 	/* @formatter:off */
@@ -112,29 +132,42 @@ public class Messages {
 	public static final String COMMAND_ADDOBJECT_HELP = "adds to the board the object given by object_description.";
 	public static final String COMMAND_ADDOBJECT_OBJECT_DESCRIPTION = "<object_description> = (col,row) objName [dir [BIG|SMALL]]. Ej. (12,3) Mario LEFT SMALL";
 	
+	// SAVE
+	public static final String COMMAND_SAVE_NAME = "save";
+	public static final String COMMAND_SAVE_SHORTCUT = "s";
+	public static final String COMMAND_SAVE_DETAILS = "[s]ave <fileName>";
+	public static final String COMMAND_SAVE_HELP = "save the actual configuration in text file <fileName>";
+	public static final String FILE_CORRECTLY_SAVED = LINE_TAB.formatted("File \"%s\" correctly saved");
+	
+	// LOAD
+	public static final String COMMAND_LOAD_NAME = "load";
+	public static final String COMMAND_LOAD_SHORTCUT = "l";
+	public static final String COMMAND_LOAD_DETAILS = "[l]oad <fileName>";
+	public static final String COMMAND_LOAD_HELP = "load the game configuration from text file <fileName>";
+	
 //GameObjects
 	// LAND
-		public static final String GAMEOBJECT_LAND_NAME = "land";
+		public static final String GAMEOBJECT_LAND_NAME = "Land";
 		public static final String GAMEOBJECT_LAND_SHORTCUT = "l";
 	
 	// EXITDOOR
-		public static final String GAMEOBJECT_EXITDOOR_NAME = "exitdoor";
+		public static final String GAMEOBJECT_EXITDOOR_NAME = "Exitdoor";
 		public static final String GAMEOBJECT_EXITDOOR_SHORTCUT = "ed";
 	
 	// GOOMBA
-		public static final String GAMEOBJECT_GOOMBA_NAME = "goomba";
+		public static final String GAMEOBJECT_GOOMBA_NAME = "Goomba";
 		public static final String GAMEOBJECT_GOOMBA_SHORTCUT = "g";
 	
 	// MARIO
-		public static final String GAMEOBJECT_MARIO_NAME = "mario";
+		public static final String GAMEOBJECT_MARIO_NAME = "Mario";
 		public static final String GAMEOBJECT_MARIO_SHORTCUT = "m";
 	
 	// MUSHROOM
-		public static final String GAMEOBJECT_MUSHROOM_NAME = "mushroom";
+		public static final String GAMEOBJECT_MUSHROOM_NAME = "Mushroom";
 		public static final String GAMEOBJECT_MUSHROOM_SHORTCUT = "mu";
 		
 	// BOX
-		public static final String GAMEOBJECT_BOX_NAME = "box";
+		public static final String GAMEOBJECT_BOX_NAME = "Box";
 		public static final String GAMEOBJECT_BOX_SHORTCUT = "b";
 	
 //Symbols

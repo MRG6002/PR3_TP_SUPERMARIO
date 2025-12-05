@@ -2,15 +2,19 @@
 
 package tp1.logic;
 
-import tp1.logic.gameobjects.Land;
-import tp1.logic.gameobjects.Goomba;
-import tp1.logic.gameobjects.Box;
-import tp1.logic.gameobjects.ExitDoor;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import tp1.exceptions.GameLoadException;
+import tp1.exceptions.GameModelException;
+import tp1.exceptions.ObjectParseException;
+import tp1.exceptions.OffBoardException;
+
 import tp1.logic.gameobjects.GameItem;
 import tp1.logic.gameobjects.GameObject;
 import tp1.logic.gameobjects.GameObjectFactory;
 import tp1.logic.gameobjects.Mario;
-import tp1.logic.gameobjects.Mushroom;
 
 import tp1.view.Messages;
 
@@ -18,24 +22,28 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	public static final int DIM_X = 30;
 	public static final int DIM_Y = 15;
 	
-	private GameObjectContainer gameObjectContainer;
+	private GameConfiguration fileLoader;
 	private int time;
 	private int points;
 	private int lives;
-	private int level;
 	private Mario mario;
+	private GameObjectContainer gameObjectContainer;
 	private boolean exit;
 	private boolean victory;
 
-	public Game(int nLevel) {
-		if(nLevel == -1) this.initLevel_1();
-		else if(nLevel == 0) this.initLevel0();
-		else if(nLevel == 1) this.initLevel1();
-		else this.initLevel2(); // nLevel == 2
-		this.points = 0;
-		this.lives = 3;
+	public Game(int level) {
+		try {
+			this.gameObjectContainer = new GameObjectContainer();
+			this.fileLoader = new LevelGameConfiguration(level, this);
+		}
+		catch(GameModelException gme) {
+			this.fileLoader = new LevelGameConfiguration(this);
+		}
+		this.points = this.fileLoader.points();
+		this.lives = this.fileLoader.numLives();
+		this.loadConfiguration();
 		this.exit = false;
-		this.victory = false; 
+		this.victory = false;
 	}
 	
 	public String positionToString(int col, int row) {
@@ -61,19 +69,17 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	return this.playerWins() || this.playerLoses() || this.exit == true;
 	}
 	
-	public boolean reset(int level) {
-		boolean reset = true;
-		
-		if(level == -1) this.initLevel_1();
-		else if(level == 0) this.initLevel0();
-		else if(level == 1) this.initLevel1();
-		else if(level == 2) this.initLevel2();
-		else reset = false;
-	return reset;
+	public void reset() {
+		this.loadConfiguration();
+		if(this.fileLoader.getLevel() == -1) {
+			this.points = this.fileLoader.points();
+			this.lives = this.fileLoader.numLives();
+		}
 	}
 	
-	public void reset() {
-		this.reset(this.level);
+	public void reset(int level) throws GameModelException {
+		this.fileLoader = new LevelGameConfiguration(level, this);
+		this.reset();
 	}
 	
 	public boolean isSolid(Position position) {
@@ -102,14 +108,16 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	return this.lives;
 	}
 	
-	public boolean addObject(String[] objectWords) {
-		Mario mario = this.mario.parse(objectWords, this);
+	public void addObject(String[] objectWords) throws OffBoardException, ObjectParseException {
+		Mario mario = new Mario(null, null).parse(objectWords, this);
 		GameObject gameObject = mario;
 		
-		if(mario != null) this.mario = mario;
+		if(mario != null) {
+			if(this.mario != null) this.mario.dead();
+			this.mario = mario;
+		}
 		else gameObject = GameObjectFactory.parse(objectWords, this);
-		if(gameObject != null) this.gameObjectContainer.add(gameObject);
-	return gameObject != null;
+		this.gameObjectContainer.add(gameObject);
 	}
 	
 	public void add(GameObject gameObject) {
@@ -117,7 +125,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	}
 	
 	public void addAction(Action action) {
-		this.mario.addAction(action);
+		if(this.mario != null) this.mario.addAction(action);
 	}
 	
 	public void marioExited() {
@@ -133,85 +141,37 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	public void doInteractionsFrom(GameItem gameItem) {
 		this.gameObjectContainer.doInteraction(gameItem);
 	}
-
+	
 	@Override
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		
-		stringBuilder.append("GAME: LEVEL ").append(this.level).append(Messages.SPACE).append(this.time).append("s ").append(this.points).append("pts ").append(this.lives).append("lives ");
-		if(this.exit) stringBuilder.append("EXITED");
-		else stringBuilder.append("NOT EXITED YET");
-		if(this.victory) stringBuilder.append(Messages.LINE.formatted(" VICTORY"));
-		else stringBuilder.append(Messages.LINE.formatted(" NO VICTORY YET"));
+		stringBuilder.append(this.time).append(Messages.SPACE).append(this.points).append(Messages.SPACE).append(this.lives).append(Messages.LINE_SEPARATOR);
 		stringBuilder.append(this.gameObjectContainer.toString());
 	return stringBuilder.toString();
 	}
 	
-	private void initLevel_1() {
-		this.time = 100;
-		this.level = -1;
-		this.lives = 3;
-		this.points = 0; 
+	public void save(String fileName) throws GameModelException {
+		try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fileName))) {
+			bufferedWriter.write(this.toString());
+		} 
+		catch(IOException ioe) {
+			throw new GameModelException(ioe);
+		}
+	}
+	
+	private void loadConfiguration() {
+		this.time = this.fileLoader.getRemainingTime();
+		this.mario = this.fileLoader.getMario();
 		this.gameObjectContainer = new GameObjectContainer();
+		if(this.mario != null) this.add(this.mario);
+		for(GameObject gameObject: this.fileLoader.getNPCObjects()) this.add(gameObject);
 	}
 	
-	private void initLevel0() {
-		this.time = 100;
-		this.level = 0;
-		this.gameObjectContainer = new GameObjectContainer();
-		// 1. Lands
-		for(int col = 0; col < 15; col++) {
-			gameObjectContainer.add(new Land(new Position(13, col), this));
-			gameObjectContainer.add(new Land(new Position(14, col), this));		
-		}
-		gameObjectContainer.add(new Land(new Position(Game.DIM_Y - 3, 9), this));
-		gameObjectContainer.add(new Land(new Position(Game.DIM_Y - 3, 12), this));
-		for(int col = 17; col < Game.DIM_X; col++) {
-			gameObjectContainer.add(new Land(new Position(Game.DIM_Y - 2, col), this));
-			gameObjectContainer.add(new Land(new Position(Game.DIM_Y - 1, col), this));		
-		}
-		gameObjectContainer.add(new Land(new Position(9, 2), this));
-		gameObjectContainer.add(new Land(new Position(9, 5), this));
-		gameObjectContainer.add(new Land(new Position(9, 6), this));
-		gameObjectContainer.add(new Land(new Position(9, 7), this));
-		gameObjectContainer.add(new Land(new Position(5, 6), this));
-
-		int tamX = 8, tamY = 8;
-		int posIniX = Game.DIM_X - 3 - tamX, posIniY = Game.DIM_Y - 3;
-		
-		for(int col = 0; col < tamX; col++) {
-			for (int fila = 0; fila < col + 1; fila++) {
-				gameObjectContainer.add(new Land(new Position(posIniY - fila, posIniX + col), this));
-			}
-		}
-		// 2. ExitDoor
-		gameObjectContainer.add(new ExitDoor(new Position(Game.DIM_Y - 3, Game.DIM_X - 1), this));
-		// 3. Mario
-		this.mario = new Mario(new Position(Game.DIM_Y - 3, 0), this);
-		gameObjectContainer.add(this.mario);
-		// 4. Goombas
-		gameObjectContainer.add(new Goomba(new Position(0, 19), this));
-	}
-	
-	private void initLevel1() {
-		this.initLevel0();
-		this.level = 1;
-		// 4. Goombas adicionales
-		gameObjectContainer.add(new Goomba(new Position(4, 6), this));
-		gameObjectContainer.add(new Goomba(new Position(12, 6), this));
-		gameObjectContainer.add(new Goomba(new Position(12, 8), this));
-		gameObjectContainer.add(new Goomba(new Position(10, 10), this));
-		gameObjectContainer.add(new Goomba(new Position(12, 11), this));
-		gameObjectContainer.add(new Goomba(new Position(12, 14), this));
-	}
-	
-	private void initLevel2() {
-		this.initLevel1();
-		this.level = 2;
-		// 5. Mushrooms
-		gameObjectContainer.add(new Mushroom(new Position(12, 8), this));
-		gameObjectContainer.add(new Mushroom(new Position(2, 20), this));
-		// 6. Box
-		gameObjectContainer.add(new Box(new Position(9, 4), this));
+	public void load(String fileName) throws GameLoadException {
+		this.fileLoader = new FileGameConfiguration(fileName, this);
+		this.points = this.fileLoader.points();
+		this.lives = this.fileLoader.numLives();
+		this.loadConfiguration();
 	}
 }

@@ -3,9 +3,8 @@
 package tp1.logic.gameobjects;
 
 import tp1.logic.Position;
-
-import java.util.Arrays;
-
+import tp1.exceptions.ObjectParseException;
+import tp1.exceptions.OffBoardException;
 import tp1.logic.Action;
 import tp1.logic.ActionList;
 import tp1.logic.GameWorld;
@@ -17,12 +16,14 @@ public class Mario extends MovingObject {
 	private static final String SHORTCUT = Messages.GAMEOBJECT_MARIO_SHORTCUT;
 	
 	private boolean big;
+	private boolean isInAir;
 	private boolean collidedUp;
 	private ActionList actionList;
 	
 	private Mario(Position position, GameWorld game, Action direction, boolean big) {
 		super(position, NAME, SHORTCUT, game, direction);
 		this.big = big;
+		this.isInAir = false;
 		this.collidedUp = false;
 		this.actionList = new ActionList();
 	}
@@ -69,19 +70,13 @@ public class Mario extends MovingObject {
 	return stringBuilder.toString(); 
 	}
 	
-	@Override
-	public String toString() {
-		StringBuilder stringBuilder = new StringBuilder();
-		
-		stringBuilder.append("MARIO: ").append(super.toString());
-		if(this.big) stringBuilder.append("BIG ");
-		else stringBuilder.append("NOT BIG ");
-		if(this.isFalling()) stringBuilder.append("FALLING");
-		else stringBuilder.append("NOT FALLING");	
-	return stringBuilder.toString();
+	private void updateIsInAir() {
+		if(super.isSolid(this.position, Action.DOWN)) this.isInAir = false;
+		else this.isInAir = true;
 	}
 	
 	private void playerMovement() {
+		this.updateIsInAir();
 		for(Action action: this.actionList) {
 			if(action == Action.DOWN) {
 				if(super.isSolid(this.position, Action.DOWN)) super.stop();
@@ -92,9 +87,11 @@ public class Mario extends MovingObject {
 				}
 			}
 			else if(action == Action.UP) {
-				this.collidedUp = super.up();
-				super.move(Action.STOP);
-				this.collidedUp = false;
+				if(!this.isInAir) {
+					this.collidedUp = super.up();
+					super.move(Action.STOP);
+					this.collidedUp = false;
+				}
 			}
 			else if (action == Action.STOP) super.stop();
 			else super.doAction(action); // action == Action.LEFT || action == Action.RIGHT
@@ -146,13 +143,6 @@ public class Mario extends MovingObject {
 	return super.validDirection(direction) || direction == Action.STOP;
 	}
 	
-	private int sizedTo(String[] objectWords) {
-		int to = objectWords.length;
-		
-		if(to == 4) to--;
-	return to;
-	}
-	
 	private boolean validSize(String size) {
 	return size.equalsIgnoreCase("big") || size.equalsIgnoreCase("b") || size.equalsIgnoreCase("small") || size.equalsIgnoreCase("s");
 	}
@@ -162,14 +152,38 @@ public class Mario extends MovingObject {
 	}
 	
 	@Override
-	public Mario parse(String[] objectWords, GameWorld game) {
-		int to = this.sizedTo(objectWords);
-		Mario mario = (Mario) super.parse(Arrays.copyOfRange(objectWords, 0, to), game);
+	public Mario parse(String[] objectWords, GameWorld game) throws OffBoardException, ObjectParseException {
+		Mario mario = (Mario) super.parse(objectWords, game);
 		
-		if(mario != null && objectWords.length == 4) {
-			if(this.validSize(objectWords[3])) mario.updateSize(objectWords[3]);
-			else mario = null;
+		if(mario != null && 4 <= objectWords.length) {
+			if(objectWords.length == 4) {
+				if(this.validSize(objectWords[3])) mario.updateSize(objectWords[3]);
+				else throw new ObjectParseException(Messages.INVALID_MARIO_SIZE.formatted(String.join(" ", objectWords)));
+			}
+			else throw new ObjectParseException(Messages.OBJECT_TOO_MUCH_ARGS.formatted(String.join(" ", objectWords)));
 		}
+	return mario;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder stringBuilder = new StringBuilder();
+		
+		stringBuilder.append(super.toString()).append(Messages.SPACE);
+		if(this.big) stringBuilder.append("BIG");
+		else stringBuilder.append("SMALL");
+	return stringBuilder.toString();
+	}
+	
+	private void updateSize(boolean big) {
+		this.big = big;
+	}
+	
+	@Override
+	public Mario newCopy() {
+		Mario mario = (Mario) super.newCopy();
+		
+		mario.updateSize(this.big);
 	return mario;
 	}
 }

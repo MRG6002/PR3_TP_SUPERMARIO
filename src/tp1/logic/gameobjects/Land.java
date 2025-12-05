@@ -3,6 +3,8 @@
 package tp1.logic.gameobjects;
 
 import tp1.logic.Position;
+import tp1.exceptions.ObjectParseException;
+import tp1.exceptions.OffBoardException;
 import tp1.logic.GameWorld;
 
 import tp1.view.Messages;
@@ -34,12 +36,15 @@ public class Land extends GameObject {
 	}
 	
 	@Override
-	public String toString() {
-	return "LAND: " + this.position.toString() + " SOLID";
-	}
-
-	@Override
 	Land newInstance(Position position, GameWorld game) {
 	return new Land(position, game);
 	}
+	
+	@Override
+	public Land parse(String[] objectWords, GameWorld game) throws OffBoardException, ObjectParseException {
+		Land land = (Land) super.parse(objectWords, game);
+		
+		if(land != null && 2 < objectWords.length) throw new ObjectParseException(Messages.OBJECT_TOO_MUCH_ARGS.formatted(String.join(" ", objectWords)));
+	return land;
+	}	
 }

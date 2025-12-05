@@ -27,7 +27,7 @@ public class Tests_V2_1 {
 	
 	@Test
 	public void test00() { 	testN(0); }
-	@Test	
+	@Test
 	public void test01() { 	testN(1); }
 	@Test
 	public void test02() { 	testN(2); }

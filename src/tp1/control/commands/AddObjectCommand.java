@@ -4,8 +4,12 @@ package tp1.control.commands;
 
 import java.util.Arrays;
 
+import tp1.exceptions.CommandExecuteException;
+import tp1.exceptions.CommandParseException;
+import tp1.exceptions.ObjectParseException;
+import tp1.exceptions.OffBoardException;
+
 import tp1.logic.GameModel;
-import tp1.logic.Position;
 
 import tp1.view.GameView;
 import tp1.view.Messages;
@@ -26,19 +30,27 @@ public class AddObjectCommand extends AbstractCommand {
 	AddObjectCommand() {
 		this(null);
 	}
-
+	
 	@Override
-	public void execute(GameModel game, GameView view) {
-		if(game.addObject(this.objectWords)) view.showGame();
-		else view.showError(Messages.INVALID_GAME_OBJECT.formatted(String.join(" ", this.objectWords)));
+	public void execute(GameModel game, GameView view) throws CommandExecuteException {
+		try {
+			game.addObject(this.objectWords);
+			view.showGame();
+		}
+		catch(OffBoardException | ObjectParseException e) {
+			throw new CommandExecuteException(Messages.ERROR_COMMAND_EXECUTE, e);
+		}
 	}
 	
 	@Override
-	public Command parse(String[] commandWords) {
-		Command command = null;
+	public AddObjectCommand parse(String[] commandWords) throws CommandParseException {
+		AddObjectCommand addObjectCommand = null;
 		
-		if(2 < commandWords.length && super.matchCommandName(commandWords[0]) && Position.rightFormat(commandWords[1])) command = new AddObjectCommand(Arrays.copyOfRange(commandWords, 1, commandWords.length));	
-	return command;
+		if(0 < commandWords.length && super.matchCommandName(commandWords[0])) {
+			if(commandWords.length == 1 || commandWords.length == 2) throw new CommandParseException(Messages.COMMAND_INCORRECT_PARAMETER_NUMBER);
+			else addObjectCommand = new AddObjectCommand(Arrays.copyOfRange(commandWords, 1, commandWords.length));	
+		}
+	return addObjectCommand;
 	}
 	
 	@Override

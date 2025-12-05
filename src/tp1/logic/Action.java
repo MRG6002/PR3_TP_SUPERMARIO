@@ -2,6 +2,9 @@
 
 package tp1.logic;
 
+import tp1.exceptions.ActionParseException;
+import tp1.view.Messages;
+
 /**
  * Represents the allowed actions in the game
  *
@@ -25,7 +28,7 @@ public enum Action {
 	return y;
 	}
 	
-	public static Action parseAction(String commandWord) {
+	public static Action parseAction(String commandWord) throws ActionParseException {
 		Action action = null;
 		
 		if(commandWord.equalsIgnoreCase("l") || commandWord.equalsIgnoreCase("left")) action = Action.LEFT;
@@ -33,6 +36,7 @@ public enum Action {
 		else if(commandWord.equalsIgnoreCase("d") || commandWord.equalsIgnoreCase("down")) action = Action.DOWN;
 		else if(commandWord.equalsIgnoreCase("u") || commandWord.equalsIgnoreCase("up")) action = Action.UP;
 		else if(commandWord.equalsIgnoreCase("s") || commandWord.equalsIgnoreCase("stop")) action = Action.STOP;
+		else throw new ActionParseException(Messages.UNKNOWN_ACTION.formatted(commandWord));
 	return action;
 	}
 	

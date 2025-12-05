@@ -4,6 +4,8 @@ package tp1.logic;
 
 import java.util.Objects;
 
+import tp1.exceptions.PositionParseException;
+
 import tp1.view.Messages;
 
 /**
@@ -24,21 +26,19 @@ public class Position {
 	return new Position(this.row + action.getX(), this.col + action.getY());
 	}
 	
-	public static boolean rightFormat(String string) {
-	return string.startsWith("(") && string.contains(",") && string.endsWith(")");
-	}
-		
-	public static Position parseString(String string) { // string = "(n,m)"
-		String trimmedString = string.substring(1, string.length() - 1); 
-		String[] strings = trimmedString.split(",");
-		Position position = null;
-		
-		if(strings.length == 2) {
-			position = new Position(Integer.parseInt(strings[0]), Integer.parseInt(strings[1]));
-			
-			if(!position.isValid()) position = null;
+	public static Position parseString(String string) throws PositionParseException { // string = "(n,m)" con n y m enteros
+		try {
+			if(string.startsWith("(") && string.contains(",") && string.endsWith(")") && string.split(",").length == 2) {
+				String trimmedString = string.substring(1, string.length() - 1); 
+				String[] strings = trimmedString.split(",");
+				
+				return new Position(Integer.parseInt(strings[0]), Integer.parseInt(strings[1]));
+			}
+			else throw new PositionParseException("positionException");
 		}
-	return position;
+		catch(NumberFormatException nfe) {
+			throw new PositionParseException(Messages.INVALID_POSITION.formatted(string), nfe);
+		}
 	}
 	
 	@Override
@@ -58,5 +58,9 @@ public class Position {
 	@Override
 	public String toString() {
 	return Messages.POSITION.formatted(this.row, this.col);		
+	}
+	
+	public Position newCopy() {
+	return new Position(this.row, this.col);
 	}
 }

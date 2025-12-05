@@ -2,9 +2,14 @@
 
 package tp1.logic.gameobjects;
 
+import tp1.exceptions.ObjectParseException;
+import tp1.exceptions.OffBoardException;
+import tp1.exceptions.PositionParseException;
+
 import tp1.logic.Action;
 import tp1.logic.GameWorld;
 import tp1.logic.Position;
+import tp1.view.Messages;
 
 public abstract class GameObject implements GameItem {
 	protected Position position;
@@ -33,15 +38,21 @@ public abstract class GameObject implements GameItem {
 	return getShortcut().equalsIgnoreCase(name) || getName().equalsIgnoreCase(name);
 	}
 	
-	public GameObject parse(String[] objectWords, GameWorld game) {
-		GameObject gameObject = null;
-		
-		if(objectWords.length == 2 && this.matchObjectName(objectWords[1])) {
-			Position position = Position.parseString(objectWords[0]);
+	public GameObject parse(String[] objectWords, GameWorld game) throws OffBoardException, ObjectParseException {
+		try {
+			GameObject gameObject = null;
 			
-			if(position != null) gameObject = newInstance(position, game);
+			if(2 <= objectWords.length && this.matchObjectName(objectWords[1])) {
+				Position position = Position.parseString(objectWords[0]);
+				
+				if(position.isValid()) gameObject = newInstance(position, game);
+				else throw new OffBoardException(Messages.OBJECT_POSITION_OFF_BOARD.formatted(String.join(" ", objectWords)));
+			}
+			return gameObject;
 		}
-	return gameObject;
+		catch(PositionParseException ppe) {
+			throw new ObjectParseException(Messages.INVALID_OBJECT_POSITION.formatted(String.join(" ", objectWords)), ppe);
+		}
 	}
 	
 	public boolean isInPosition(Position position) {
@@ -56,7 +67,6 @@ public abstract class GameObject implements GameItem {
 		this.isAlive = false;
 	}
 	
-	// Not mandatory but recommended
 	protected void move(Action direction) {
 		this.position = this.position.go(direction);
 		this.game.doInteractionsFrom(this);
@@ -97,8 +107,19 @@ public abstract class GameObject implements GameItem {
 	return false;
 	}
 	
+	@Override
+	public String toString() {
+		StringBuilder stringBuilder = new StringBuilder();
+		
+		stringBuilder.append(this.position.toString()).append(Messages.SPACE).append(this.name);
+	return stringBuilder.toString();
+	};
+	
+	public GameObject newCopy() {
+	return newInstance(this.position.newCopy(), game);	
+	}
+	
 	public abstract void update();
 	public abstract String getIcon();
-	public abstract String toString();
 	abstract GameObject newInstance(Position position, GameWorld game); 
 }
