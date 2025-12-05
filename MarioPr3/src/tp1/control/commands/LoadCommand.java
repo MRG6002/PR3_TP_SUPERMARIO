@@ -18,7 +18,7 @@ public class LoadCommand extends AbstractCommand {
 	private String fileName;
 	
 	LoadCommand() {
-		super(NAME, SHORTCUT, DETAILS, HELP);
+		this(null);
 	}
 	
 	public LoadCommand(String fileName) {
@@ -37,11 +37,11 @@ public class LoadCommand extends AbstractCommand {
 	}
 
 	@Override
-	public Command parse(String[] commandWords) throws CommandParseException{
+	public LoadCommand parse(String[] commandWords) throws CommandParseException{
 		if ((commandWords.length > 2 || commandWords.length == 1) && matchCommandName(commandWords[0]))
 	 		throw new CommandParseException(Messages.COMMAND_INCORRECT_PARAMETER_NUMBER);
 
-		Command command = null;
+		LoadCommand command = null;
 		if(commandWords.length == 2 && this.matchCommandName(commandWords[0])) {
 			command = new LoadCommand(commandWords[1]);
 		}

@@ -17,8 +17,8 @@ public class SaveCommand extends AbstractCommand {
 	private static final String HELP = Messages.COMMAND_SAVE_HELP;
 	private String fileName;
 	
-	public SaveCommand() {
-		super(NAME, SHORTCUT, DETAILS, HELP);
+	SaveCommand() {
+		this(null);
 	}
 	
 	public SaveCommand(String fileName) {
@@ -37,11 +37,11 @@ public class SaveCommand extends AbstractCommand {
 	}
 
 	@Override
-	public Command parse(String[] commandWords) throws CommandParseException{
+	public SaveCommand parse(String[] commandWords) throws CommandParseException{
 		if ((commandWords.length > 2 || commandWords.length == 1) && matchCommandName(commandWords[0]))
 	 		throw new CommandParseException(Messages.COMMAND_INCORRECT_PARAMETER_NUMBER);
 
-		Command command = null;
+		SaveCommand command = null;
 		if(commandWords.length == 2 && this.matchCommandName(commandWords[0])) {
 			command = new SaveCommand(commandWords[1]);
 		}

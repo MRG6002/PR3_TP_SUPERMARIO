@@ -24,7 +24,7 @@ public class AddObjectCommand extends AbstractCommand{
 	}
 
 	AddObjectCommand() {
-		super(NAME, SHORTCUT, DETAILS, HELP);
+		this(null);
 	}
 	
 	@Override
@@ -38,11 +38,11 @@ public class AddObjectCommand extends AbstractCommand{
 	}
 
 	@Override
-	public Command parse(String[] commandWords) throws CommandParseException{
+	public AddObjectCommand parse(String[] commandWords) throws CommandParseException{
 		if (commandWords.length <= 2 && matchCommandName(commandWords[0]))
 	 		throw new CommandParseException(Messages.COMMAND_INCORRECT_PARAMETER_NUMBER);
 		
-		Command command = null;
+		AddObjectCommand command = null;
 		if(2 < commandWords.length && this.matchCommandName(commandWords[0])) {
 			command = new AddObjectCommand(Arrays.copyOfRange(commandWords, 1, commandWords.length));
 		}

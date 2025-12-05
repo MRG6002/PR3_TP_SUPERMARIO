@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import tp1.exceptions.ActionParseException;
-import tp1.exceptions.CommandExecuteException;
 import tp1.exceptions.CommandParseException;
 import tp1.logic.Action;
 import tp1.logic.GameModel;
@@ -29,12 +28,11 @@ public class ActionCommand extends AbstractCommand {
 	}
 
 	ActionCommand() {
-		super(NAME, SHORTCUT, DETAILS, HELP);
-		this.actionList = new ArrayList<>();
+		this(null);
 	}
 
 	@Override
-	public void execute(GameModel game, GameView view) throws CommandExecuteException{
+	public void execute(GameModel game, GameView view){
 		for(Action action: this.actionList) {
 			game.addAction(action);
 		}
@@ -43,11 +41,11 @@ public class ActionCommand extends AbstractCommand {
 	}
 
 	@Override
-	public Command parse(String[] commandWords) throws CommandParseException{
+	public ActionCommand parse(String[] commandWords) throws CommandParseException{
 		if (commandWords.length == 1 && matchCommandName(commandWords[0]))
 	 		throw new CommandParseException(Messages.COMMAND_INCORRECT_PARAMETER_NUMBER);
 
-		Command command = null;
+		ActionCommand command = null;
 		if(1 < commandWords.length && this.matchCommandName(commandWords[0])) {
 			List<Action> actionList = new ArrayList<>();
 			ActionCommand.parseActions(Arrays.copyOfRange(commandWords, 1, commandWords.length), actionList);

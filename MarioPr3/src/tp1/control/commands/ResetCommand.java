@@ -41,13 +41,13 @@ public class ResetCommand extends AbstractCommand {
 	}
 
 	@Override
-	public Command parse(String[] commandWords) throws CommandParseException{
+	public ResetCommand parse(String[] commandWords) throws CommandParseException{
 		if (commandWords.length > 2 && matchCommandName(commandWords[0]))
 	 		throw new CommandParseException(Messages.COMMAND_INCORRECT_PARAMETER_NUMBER);
 		
 		try {
 			
-			Command command = null;
+			ResetCommand command = null;
 			if((commandWords.length == 1 || commandWords.length == 2) && this.matchCommandName(commandWords[0])) {
 				if(commandWords.length == 1) command = new ResetCommand();
 				else command = new ResetCommand(Integer.parseInt(commandWords[1]));
