@@ -24,7 +24,7 @@ public class Box extends GameObject{
 	}
 	
 	@Override
-	GameObject newObject(Position pos, GameWorld game) {
+	Box newObject(Position pos, GameWorld game) {
 		return new Box(pos, game);
 	}
 	

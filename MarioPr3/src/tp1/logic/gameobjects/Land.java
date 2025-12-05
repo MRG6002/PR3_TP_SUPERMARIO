@@ -32,7 +32,7 @@ public class Land extends GameObject {
 	public  boolean interactWith(GameItem item) {return false;}
 	
 	@Override
-	GameObject newObject(Position pos, GameWorld game){
+	Land newObject(Position pos, GameWorld game){
 		return new Land(pos, game);
 	}
 	

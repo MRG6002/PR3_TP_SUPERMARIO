@@ -35,7 +35,7 @@ public class ExitDoor extends GameObject {
 	}
 	
 	@Override
-	GameObject newObject(Position pos, GameWorld game){
+	ExitDoor newObject(Position pos, GameWorld game){
 		return new ExitDoor(pos, game);
 	}
 	

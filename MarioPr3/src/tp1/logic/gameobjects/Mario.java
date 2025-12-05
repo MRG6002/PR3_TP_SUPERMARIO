@@ -31,7 +31,7 @@ public class Mario extends MovingObject {
 	}
 	
 	@Override
-	GameObject newObject(Position pos, GameWorld game) {
+	Mario newObject(Position pos, GameWorld game) {
 		return new Mario(pos, game);
 	}
 	
