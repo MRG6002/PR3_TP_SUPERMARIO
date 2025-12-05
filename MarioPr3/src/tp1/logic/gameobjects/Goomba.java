@@ -23,7 +23,7 @@ public class Goomba extends MovingObject {
 	}
 	
 	@Override
-	public GameObject newObject(Position pos, GameWorld game) {
+	GameObject newObject(Position pos, GameWorld game) {
 		return new Goomba(pos, game);
 	}
 	

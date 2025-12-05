@@ -18,14 +18,9 @@ public class GameObjectContainer {
 	
 	public void add(GameObject object) {objects.add(object);}
 	
-	private List<GameObject> auxiliarObjects() {
-		List<GameObject> aux = new ArrayList<>();
-		for (GameObject object : objects) aux.add(object);
-		return aux;
-	}
-	
 	public void update() {
-		List<GameObject> aux = auxiliarObjects();
+		List<GameObject> aux = new ArrayList<>();
+		aux.addAll(this.objects);
 		for (GameObject object : aux) {
 			if(object.isAlive()) object.update();
 		}
@@ -33,7 +28,8 @@ public class GameObjectContainer {
 	}
 	
 	public void doInteractionsFrom(GameItem object) {
-		List<GameObject> aux = auxiliarObjects();
+		List<GameObject> aux = new ArrayList<>();
+		aux.addAll(this.objects);
 		for(GameObject o: aux) { 
 			object.interactWith(o);
 			o.interactWith(object);

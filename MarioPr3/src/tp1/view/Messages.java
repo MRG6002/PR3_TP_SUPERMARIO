@@ -46,26 +46,12 @@ public class Messages {
 	public static final String LINE_TAB = TAB + LINE;
 	public static final String LINE_2TABS = TAB + LINE_TAB;
 
-//Commands
-	// Errores de factorías:
+//ERRORS
+	// COMMAND ERRORS:
 	public static final String UNKNOWN_COMMAND = "Unknown command: %s";
-	public static final String INVALID_GAME_OBJECT = "Invalid game object: %s";
-	public static final String UNKNOWN_GAME_OBJECT = "Unknown game object: \"%s\"";
-	public static final String POSITION_OUT_OF_BOUNDS = "Object position is off board: \"%s\"";
-	public static final String INVALID_POSITION = "Invalid position: \"%s\"";
-	public static final String INVALID_OBJECT_POSITION = "Invalid object position: \"%s\"";
-	public static final String UNKNOWN_MO_DIRECTION = "Unknown moving object direction: \"%s\"";
-	public static final String INVALID_MO_DIRECTION = "Invalid moving object direction: \"%s\"";
-	public static final String OBJECT_TOO_MUCH_ARGS = "Object parse error, too much args: \"%s\"";
 	public static final String INCORRECT_GAME_STATUS = "Incorrect game status \"%s\"";
 	public static final String INVALID_GAME_CONFIG = "Invalid file \"%s\" configuration";
 	public static final String UNABLE_TO_LOAD = "Unable to load game configuration from file \"%s\"";
-
-
-	public static final String INVALID_BOX_STATUS = " Invalid Box status: \"%s\"";
-	public static final String INVALID_MARIO_STATUS = "Invalid Mario size: \"%s\"";
-
-	// Errores de commandos:
 	public static final String COMMAND_PARAMETERS_MISSING = "Missing parameters";
 	public static final String COMMAND_INCORRECT_PARAMETER_NUMBER = "Incorrect parameter number";
 	public static final String UNKNOWN_ACTION = "Unknown action: \"%s\"";
@@ -78,9 +64,18 @@ public class Messages {
 	public static final String FILE_NOT_OPENED = "File not opened: \"%s\"";
 	public static final String ERROR_COMMAND_LOAD = "Unable to load game configuration from file \"%s\"";
 	public static final String FILE_NOT_FOUND = "File not found: \"%s\"";
-
 	
-	
+	//OBJECT ERRORS: 
+	public static final String INVALID_GAME_OBJECT = "Invalid game object: %s";
+	public static final String UNKNOWN_GAME_OBJECT = "Unknown game object: \"%s\"";
+	public static final String POSITION_OUT_OF_BOUNDS = "Object position is off board: \"%s\"";
+	public static final String INVALID_POSITION = "Invalid position: \"%s\"";
+	public static final String INVALID_OBJECT_POSITION = "Invalid object position: \"%s\"";
+	public static final String UNKNOWN_MO_DIRECTION = "Unknown moving object direction: \"%s\"";
+	public static final String INVALID_MO_DIRECTION = "Invalid moving object direction: \"%s\"";
+	public static final String OBJECT_TOO_MUCH_ARGS = "Object parse error, too much args: \"%s\"";
+	public static final String INVALID_BOX_STATUS = " Invalid Box status: \"%s\"";
+	public static final String INVALID_MARIO_STATUS = "Invalid Mario size: \"%s\"";
 
 	
 	public static final String HELP_AVAILABLE_COMMANDS = "Available commands:";
@@ -174,7 +169,7 @@ public class Messages {
 	public static final String BOX_SHORTCUT = "b";
 	public static final String MUSHROOM_NAME = "mushroom";
 	public static final String MUSHROOM_SHORTCUT = "mu";
-	//object states: 
+//Object states: 
 	public static final String BOX_STATUS_EMPTY = "Empty";
 	public static final String BOX_STATUS_EMPTY_SC = "E";
 	public static final String BOX_STATUS_FULL = "Full";

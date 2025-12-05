@@ -31,7 +31,7 @@ public class Mario extends MovingObject {
 	}
 	
 	@Override
-	public GameObject newObject(Position pos, GameWorld game) {
+	GameObject newObject(Position pos, GameWorld game) {
 		return new Mario(pos, game);
 	}
 	
@@ -52,7 +52,7 @@ public class Mario extends MovingObject {
 	
 	@Override
 	public void update() {
-		Position position = this.position.go(Action.STOP); 
+		Position position = this.position.copy(); 
 		this.playerMovement();
 		if(this.position.equals(position) && (!super.isInDirection(Action.STOP) || !this.game.isSolid(this.position.go(Action.DOWN)))) { 
 			super.update();
@@ -94,8 +94,8 @@ public class Mario extends MovingObject {
 	@Override
 	protected boolean headCollision() {
 		if(big) {
-			Position pos = this.position.go(Action.UP).go(Action.UP);
-			this.headCollision = this.game.isSolid(pos) || position.isBorder();
+			this.headCollision = this.game.isSolid(this.position.go(Action.UP).go(Action.UP)) 
+					|| position.isBorder();
 		}
 		else this.headCollision = super.headCollision();
 		return this.headCollision;

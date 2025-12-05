@@ -61,7 +61,7 @@ public abstract class GameObject implements GameItem{
 	}
 	
 	public abstract String getIcon();
-	public abstract GameObject newObject(Position pos, GameWorld game);
+	abstract GameObject newObject(Position pos, GameWorld game);
 	
 	public GameObject newCopy() {
 		return this.newObject(this.position.copy(), this.game);

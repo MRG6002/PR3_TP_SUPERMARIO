@@ -22,7 +22,7 @@ public class Mushroom extends MovingObject{
 	}
 	
 	@Override
-	public GameObject newObject(Position pos, GameWorld game) {
+	GameObject newObject(Position pos, GameWorld game) {
 		return new Mushroom(pos, game);
 	}
 	
