@@ -1,3 +1,5 @@
+// Grupo 13: XiangLin - MarioRosellGarcia
+
 package tp1.exceptions;
 
 public class PositionParseException extends GameParseException {

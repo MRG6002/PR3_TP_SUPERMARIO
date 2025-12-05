@@ -20,13 +20,9 @@ public class Mario extends MovingObject {
 	private ActionList actionList;
 
 	public Mario(Position position, GameWorld game) {
-		this(position, game, Action.RIGHT, true);
-	}
-	
-	private Mario(Position position, GameWorld game, Action dir, boolean big) {
-		super(position, game, dir, NAME, SHORTCUT);
+		super(position, game, Action.RIGHT, NAME, SHORTCUT);
 		this.headCollision = false;
-		this.big = big;
+		this.big = true;
 		this.actionList = new ActionList();
 	}
 	
@@ -51,7 +47,7 @@ public class Mario extends MovingObject {
 	//movimiento de Mario
 	@Override
 	public boolean isInPosition(Position position) {
-	return super.isInPosition(position) || (this.big && (this.position.go(Action.UP).equals(position)));
+	return (this.big && (this.position.go(Action.UP).equals(position))) || super.isInPosition(position);
 	}
 	
 	@Override
@@ -103,11 +99,11 @@ public class Mario extends MovingObject {
 	
 	@Override
 	protected boolean headCollision() {
-		this.headCollision = super.headCollision();
 		if(big) {
 			Position pos = this.position.go(Action.UP).go(Action.UP);
 			this.headCollision = this.game.isSolid(pos) || position.isBorder();
 		}
+		else this.headCollision = super.headCollision();
 		return this.headCollision;
 	}
 	
@@ -133,9 +129,7 @@ public class Mario extends MovingObject {
 	@Override
 	public  boolean receiveInteraction(Mushroom obj) {
 		boolean interaction = obj.isInPosition(this.position) || (this.big && obj.isInPosition(this.position.go(Action.UP)));
-		if(interaction) {
-			this.big = true;
-		}
+		if(interaction) this.big = true;
 	return interaction;
 	}
 	

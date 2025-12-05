@@ -1,3 +1,5 @@
+// Grupo 13: XiangLin - MarioRosellGarcia
+
 package tp1.logic;
 
 import java.io.BufferedReader;
@@ -64,13 +66,10 @@ public class FileGameConfiguration implements GameConfiguration{
 			
 			if(this.mario == null) this.mario = new Mario(new Position(0,0), game);
 			Mario mario = this.mario.parse(objectWords, game);
-			GameObject object = mario;
 			
 			if(mario != null) this.mario = mario;
-			else {
-				object = GameObjectFactory.parse(objectWords, game);
-				this.objects.add(object);
-			}
+			else this.objects.add(GameObjectFactory.parse(objectWords, game));
+			
 			objectWord = in.readLine();
 		}
 	}
@@ -85,7 +84,7 @@ public class FileGameConfiguration implements GameConfiguration{
 	public int numLives() {return this.lives;}
 	
 	@Override
-	public int getLevel() {return 0;}
+	public boolean resetsAll() {return false;}
 
 	@Override
 	public Mario getMario() {

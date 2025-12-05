@@ -11,7 +11,7 @@ import tp1.logic.Position;
 import tp1.view.Messages;
 
 public abstract class GameObject implements GameItem{
-	protected Position position; // If you can, make it private
+	protected Position position;
 	protected GameWorld game; 
 	private boolean isAlive;
 	private String name;
@@ -26,7 +26,7 @@ public abstract class GameObject implements GameItem{
 	}
 	
 	public boolean isInPosition(Position position) {
-	return this.position.equals(position);
+		return this.position.equals(position);
 	}
 	
 	protected boolean fallen() {
@@ -34,7 +34,7 @@ public abstract class GameObject implements GameItem{
 	}
  	
 	public boolean isAlive() {
-	return this.isAlive;
+		return this.isAlive;
 	}
 	
 	public void dead(){
@@ -47,19 +47,20 @@ public abstract class GameObject implements GameItem{
 	}
 	
 	protected String getName() {
-	return name;
+		return name;
 	}
 		
 	protected String getShortcut() {
-	return shortcut; 
+		return shortcut; 
 	}
+	
+	public boolean bothAlive(GameItem item) { return this.isAlive() && item.isAlive();}
 	
 	protected boolean matchObjectName(String name) {
 	return getShortcut().equalsIgnoreCase(name) || getName().equalsIgnoreCase(name);
 	}
 	
 	public abstract String getIcon();
-	
 	public abstract GameObject newObject(Position pos, GameWorld game);
 	
 	public GameObject newCopy() {
@@ -75,8 +76,6 @@ public abstract class GameObject implements GameItem{
 	public boolean receiveInteraction(Mushroom obj) {return false;}
 	public boolean receiveInteraction(Box obj) {return false;}
 	
-	public boolean bothAlive(GameItem item) { return this.isAlive() && item.isAlive();}
-
 	public String toString() {
 		return this.position.toString() +Messages.SPACE+ this.getName();
 	}
@@ -98,6 +97,4 @@ public abstract class GameObject implements GameItem{
 		}
 		
 	}
-
-	public void connect() {}
 }

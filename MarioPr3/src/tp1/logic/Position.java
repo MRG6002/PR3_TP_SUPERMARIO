@@ -45,18 +45,16 @@ public class Position {
 	public static Position stringToPosition(String string) throws OffBoardException, PositionParseException{
 		
 		try {
-			Position pos = null;
 			if(string != null && validStringFormat(string)) {
 				String[] posiciones = parsePositions(string);
 				int posx = Integer.parseInt(posiciones[0]);
 				int posy = Integer.parseInt(posiciones[1]);
 				
-				if(Position.validPosition(posx, posy)) pos = new Position(posx, posy);
+				if(Position.validPosition(posx, posy)) return new Position(posx, posy);
 				else throw new OffBoardException();
 				
 			}
 			else throw new PositionParseException(Messages.INVALID_POSITION.formatted(string));
-			return pos;
 		} catch (NumberFormatException nfe) {
 			throw new PositionParseException(Messages.INVALID_POSITION.formatted(string), nfe);
 		}

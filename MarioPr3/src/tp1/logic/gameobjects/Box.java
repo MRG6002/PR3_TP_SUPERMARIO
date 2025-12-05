@@ -15,12 +15,8 @@ public class Box extends GameObject{
 	private boolean isOpen;
 
 	public Box(Position position, GameWorld game) {
-		this(position, game, false);
-	}
-	
-	private Box(Position position, GameWorld game, boolean open) {
 		super(position, game, NAME, SHORTCUT);
-		this.isOpen = open;
+		this.isOpen = false;
 	}
 	
 	Box(){
@@ -82,7 +78,6 @@ public class Box extends GameObject{
 	@Override
 	public String getIcon() {
 		return this.isOpen ? Messages.EMPTY_BOX:Messages.BOX;
-		
 	}
 
 	@Override

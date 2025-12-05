@@ -25,6 +25,6 @@ public class UpdateCommand extends NoParamsCommand {
 	
 	@Override
 	protected boolean matchCommandName(String name) {
-	return super.matchCommandName(name) || name.isBlank();
+		return super.matchCommandName(name) || name.isBlank();
 	}
 }

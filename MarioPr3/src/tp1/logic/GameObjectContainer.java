@@ -67,6 +67,6 @@ public class GameObjectContainer {
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		for(GameObject o: this.objects) stringBuilder.append(Messages.LINE.formatted(o.toString()));
-	return stringBuilder.toString();
+		return stringBuilder.toString();
 	}
 }

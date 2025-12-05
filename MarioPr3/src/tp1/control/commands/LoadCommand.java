@@ -17,7 +17,7 @@ public class LoadCommand extends AbstractCommand {
 	private static final String HELP = Messages.COMMAND_LOAD_HELP;
 	private String fileName;
 	
-	public LoadCommand() {
+	LoadCommand() {
 		super(NAME, SHORTCUT, DETAILS, HELP);
 	}
 	

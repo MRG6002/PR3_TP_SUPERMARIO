@@ -17,28 +17,17 @@ public abstract class AbstractCommand implements Command {
 		this.help = help;
 	}
 
-	protected String getName() {
-	return name;
-	}
-	
-	protected String getShortcut() {
-	return shorcut; 
-	}
-	
-	protected String getDetails() {
-	return details;
-	}
-	
-	protected String getHelp() {
-	return help; 
-	}
+	protected String getName() {return name;}
+	protected String getShortcut() {return shorcut; }
+	protected String getDetails() {return details;}
+	protected String getHelp() {return help; }
 
 	protected boolean matchCommandName(String name) {
-	return getShortcut().equalsIgnoreCase(name) || getName().equalsIgnoreCase(name);
+		return getShortcut().equalsIgnoreCase(name) || getName().equalsIgnoreCase(name);
 	}
 
 	@Override
 	public String helpText(){
-	return Messages.LINE_TAB.formatted(Messages.COMMAND_HELP_TEXT.formatted(getDetails(), getHelp()));
+		return Messages.LINE_TAB.formatted(Messages.COMMAND_HELP_TEXT.formatted(getDetails(), getHelp()));
 	}
 }

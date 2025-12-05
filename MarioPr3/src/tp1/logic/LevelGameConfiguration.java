@@ -1,3 +1,5 @@
+// Grupo 13: XiangLin - MarioRosellGarcia
+
 package tp1.logic;
 
 import java.util.ArrayList;
@@ -18,10 +20,10 @@ public class LevelGameConfiguration implements GameConfiguration{
 	private int time;
 	private int points;
 	private int lives;
-	private int level;
+	private boolean resetsAll;
 	
 	public LevelGameConfiguration(int level, GameWorld game) throws GameModelException{
-		this.level = level;
+		this.resetsAll = false;
 		switch (level) {
 		case 0:{this.initLevel0(game);} break;
 		case 1:{this.initLevel1(game);} break;
@@ -36,7 +38,7 @@ public class LevelGameConfiguration implements GameConfiguration{
 	}
 	
 	@Override
-	public int getLevel() {return this.level;}
+	public boolean resetsAll() {return this.resetsAll;}
 	
 	@Override
 	public int getRemainingTime() {return this.time;}
@@ -64,6 +66,7 @@ public class LevelGameConfiguration implements GameConfiguration{
 	
 	
 	private void initLevelMinus1(GameWorld game) {
+		this.resetsAll = true;
 		this.time = 100;
 		this.lives = 3;
 		this.points = 0;

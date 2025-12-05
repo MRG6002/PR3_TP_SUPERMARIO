@@ -23,11 +23,10 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	private GameConfiguration fileloader;
 	
 	private GameObjectContainer gameObjectContainer;
+	private Mario mario;
 	private int time;
 	private int points;
 	private int lives;
-
-	private Mario mario;
 	private boolean exit;
 	private boolean victory;
 
@@ -47,7 +46,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	
 	public void reset() {
 		loadFileInfo();
-		if(this.fileloader.getLevel() == -1) {
+		if(this.fileloader.resetsAll()) {
 			this.points = this.fileloader.points();
 			this.lives = this.fileloader.numLives();
 		}
@@ -89,8 +88,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	
 	//funciones generales
 	public String positionToString(int col, int row) {
-		Position position = new Position(row, col);
-		return this.gameObjectContainer.positionToString(position);
+		return this.gameObjectContainer.positionToString(new Position(row, col));
 	}
 
 	public boolean playerWins() {

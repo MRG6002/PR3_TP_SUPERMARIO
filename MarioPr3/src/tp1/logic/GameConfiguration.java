@@ -13,7 +13,7 @@ public interface GameConfiguration {
 	public int getRemainingTime();
 	public int points();
 	public int numLives();
-	public int getLevel();
+	public boolean resetsAll();
 	
 	// game objects
 	public Mario getMario();

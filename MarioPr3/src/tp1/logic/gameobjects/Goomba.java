@@ -15,11 +15,7 @@ public class Goomba extends MovingObject {
 	private static final String SHORTCUT = Messages.GOOMBA_SHORTCUT;
 	
 	public Goomba(Position position, GameWorld game) {
-		this(position, game, Action.LEFT);
-	}
-	
-	private Goomba(Position position, GameWorld game, Action dir) {
-		super(position, game, dir, NAME, SHORTCUT);
+		super(position, game, Action.LEFT, NAME, SHORTCUT);
 	}
 
 	Goomba() {

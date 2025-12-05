@@ -14,11 +14,7 @@ public class Mushroom extends MovingObject{
 	private static final String SHORTCUT = Messages.MUSHROOM_SHORTCUT;
 
 	public Mushroom(Position position, GameWorld game) {
-		this(position, game, Action.RIGHT);
-	}
-	
-	private Mushroom(Position pos, GameWorld game, Action dir) {
-		super(pos, game, dir, NAME, SHORTCUT);
+		super(position, game, Action.RIGHT, NAME, SHORTCUT);
 	}
 	
 	Mushroom (){
