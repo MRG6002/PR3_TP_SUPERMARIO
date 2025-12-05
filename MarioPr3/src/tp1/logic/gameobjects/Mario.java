@@ -40,13 +40,12 @@ public class Mario extends MovingObject {
 	}
 	
 	@Override
-	protected GameObject newObject(Position pos, GameWorld game, Action dir) {
-		return new Mario(pos, game, dir, true);
-	}
-	
-	@Override
-	protected Mario marioNewCopy(Position pos, GameWorld game, Action direction) {
-		return new Mario(pos, game, direction, this.big);
+	public Mario newCopy() {
+		Mario mario = (Mario)super.newCopy();
+		mario.big = this.big;
+		mario.headCollision = this.headCollision;
+		mario.jumpedFromFloor = this.jumpedFromFloor;
+		return mario;
 	}
 	
 	//movimiento de Mario

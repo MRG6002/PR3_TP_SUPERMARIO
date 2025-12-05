@@ -90,7 +90,7 @@ public class FileGameConfiguration implements GameConfiguration{
 	@Override
 	public Mario getMario() {
 		Mario mario = null;
-		if(this.mario != null) mario = this.mario.marioNewCopy();
+		if(this.mario != null) mario = this.mario.newCopy();
 		return mario;
 	}
 

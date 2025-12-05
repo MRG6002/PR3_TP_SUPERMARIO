@@ -32,8 +32,8 @@ public class Goomba extends MovingObject {
 	}
 	
 	@Override
-	protected GameObject newObject(Position pos, GameWorld game, Action dir) {
-		return new Goomba(pos, game, dir);
+	public Goomba newCopy() {
+		return (Goomba)super.newCopy();
 	}
 
 	@Override

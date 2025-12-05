@@ -40,22 +40,13 @@ public abstract class MovingObject extends GameObject {
 	
 	protected boolean validDirection(Action dir) { return dir == Action.RIGHT || dir == Action.LEFT; }
 	
-	protected abstract GameObject newObject(Position pos, GameWorld game, Action action);
-	
 	@Override 
-	public GameObject newCopy(Position pos, GameWorld game) {
-		return this.newCopy(pos, game, this.direction);
+	public MovingObject newCopy() {
+		MovingObject mo = (MovingObject) super.newCopy();
+		mo.direction = this.direction;
+		mo.isFalling = mo.isFalling;
+		return mo;
 	}
-	
-	public GameObject newCopy(Position pos, GameWorld game, Action direction) {
-		return this.newObject(pos, game, direction);
-	}
-	
-	public Mario marioNewCopy() {
-		return this.marioNewCopy(this.position.copy(), this.game, this.direction);
-	}
-	
-	protected Mario marioNewCopy(Position pos, GameWorld game, Action direction) {return null;}
 	
 	public void update() {
 		if(this.game.isSolid(this.position.go(Action.DOWN))) {

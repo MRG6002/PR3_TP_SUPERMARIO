@@ -31,8 +31,8 @@ public class Mushroom extends MovingObject{
 	}
 	
 	@Override
-	protected GameObject newObject(Position pos, GameWorld game, Action dir) {
-		return new Mushroom(pos, game, dir);
+	public Mushroom newCopy() {
+		return (Mushroom)super.newCopy();
 	}
 	
 	@Override 

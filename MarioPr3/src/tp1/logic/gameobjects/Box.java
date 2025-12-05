@@ -33,8 +33,10 @@ public class Box extends GameObject{
 	}
 	
 	@Override
-	public GameObject newCopy(Position pos, GameWorld game) {
-		return new Box(pos, game, this.isOpen);
+	public Box newCopy() {
+		Box aux = (Box) super.newCopy();
+		aux.isOpen = this.isOpen;
+		return aux;
 	}
 	
 	@Override
