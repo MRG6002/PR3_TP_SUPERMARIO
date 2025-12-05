@@ -49,10 +49,7 @@ public abstract class MovingObject extends GameObject {
 	}
 	
 	public void update() {
-		if(this.game.isSolid(this.position.go(Action.DOWN))) {
-			this.isFalling = false;
-			this.doAction(this.direction);
-		}
+		if(this.game.isSolid(this.position.go(Action.DOWN))) this.doAction(this.direction);
 		else this.freeFalling();
 	}
 	
@@ -71,14 +68,15 @@ public abstract class MovingObject extends GameObject {
 	}
 	
 	protected boolean freeFalling() {
-		this.isFalling = false;
+		boolean falling = false;
 		
 		if(!this.game.isSolid(this.position.go(Action.DOWN)) && !this.position.isBorder()) {
 			this.isFalling = true;
+			falling = true;
 			super.move(Action.DOWN);
 			if(this.position.isBorder()) super.dead();
 		}
-	return this.isFalling;
+	return falling;
 	}
 	
 	protected boolean isInDirection(Action direction) {

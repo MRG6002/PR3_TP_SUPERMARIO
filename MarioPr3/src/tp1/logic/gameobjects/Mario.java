@@ -23,6 +23,7 @@ public class Mario extends MovingObject {
 		super(position, game, Action.RIGHT, NAME, SHORTCUT);
 		this.headCollision = false;
 		this.big = true;
+		this.jumpedFromFloor = false;
 		this.actionList = new ActionList();
 	}
 	
