@@ -26,11 +26,6 @@ public class Mushroom extends MovingObject{
 		return new Mushroom(pos, game);
 	}
 	
-	@Override
-	public Mushroom newCopy() {
-		return (Mushroom)super.newCopy();
-	}
-	
 	@Override 
 	public Mushroom parse(String objWords[], GameWorld game) throws OffBoardException, ObjectParseException {
 		Mushroom mushroom = (Mushroom) super.parse(objWords, game);

@@ -26,11 +26,6 @@ public class Goomba extends MovingObject {
 	Goomba newObject(Position pos, GameWorld game) {
 		return new Goomba(pos, game);
 	}
-	
-	@Override
-	public Goomba newCopy() {
-		return (Goomba)super.newCopy();
-	}
 
 	@Override
 	public String getIcon() {
