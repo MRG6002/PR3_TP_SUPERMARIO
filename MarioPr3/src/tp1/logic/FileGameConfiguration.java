@@ -3,6 +3,7 @@
 package tp1.logic;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,17 +26,17 @@ public class FileGameConfiguration implements GameConfiguration{
 	
 	public FileGameConfiguration(String fileName, GameWorld game) throws GameLoadException{
 		this.objects = new ArrayList<>();
-		String firstLine = null, objectWord = null;
-		String[] parameters = null, objectWords = null;
+		String firstLine = null;
+		String[] parameters = null;
 		try (BufferedReader in = 
 				new BufferedReader(
 						new FileReader(fileName));){
 			
 			loadInitialParameters(firstLine, parameters, in);
-			loadObjects(objectWord, objectWords, in, game);
+			loadObjects(firstLine, parameters, in, game);
 			
-		} catch (IOException e) {
-			throw new GameLoadException(Messages.FILE_NOT_FOUND.formatted(fileName), e);
+		} catch (FileNotFoundException fnfe) {
+			throw new GameLoadException(Messages.FILE_NOT_FOUND.formatted(fileName), fnfe);
 		} catch (NumberFormatException nfe) {
 			throw new GameLoadException(Messages.INCORRECT_GAME_STATUS.formatted(firstLine), nfe);
         } catch (ObjectParseException | OffBoardException e) {
@@ -43,7 +44,7 @@ public class FileGameConfiguration implements GameConfiguration{
         } catch (GameLoadException gle) {
         	throw gle;
         } catch(Exception e) {
-        	throw new GameLoadException(Messages.INCORRECT_GAME_STATUS.formatted(firstLine), e);
+        	throw new GameLoadException(Messages.INVALID_GAME_CONFIG.formatted(fileName), e);
         }
 	}
 	
@@ -58,7 +59,8 @@ public class FileGameConfiguration implements GameConfiguration{
 		this.lives = Integer.parseInt(parameters[2]);
 	}
 	
-	private void loadObjects(String objectWord, String[] objectWords, BufferedReader in, GameWorld game) throws GameLoadException, IOException, ObjectParseException, OffBoardException{
+	private void loadObjects(String objectWord, String[] objectWords, BufferedReader in, GameWorld game) 
+			throws GameLoadException, IOException, ObjectParseException, OffBoardException{
 		objectWord = in.readLine();
 		while(objectWord != null) {
 			objectWords = objectWord.split(" ");

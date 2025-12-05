@@ -88,13 +88,7 @@ public class Mario extends MovingObject {
 	}
 
 	public void addAction(Action action) {
-		if(isValidAction(action)) this.actionList.addLast(action); 
-	}
-	
-	private boolean isValidAction(Action action) {
-		return action != null && 
-				(action == Action.STOP ||
-				!this.actionList.containsOpposite(action) && this.actionList.times(action) < 4);
+		this.actionList.addLast(action); 
 	}
 	
 	@Override

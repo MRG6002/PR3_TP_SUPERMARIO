@@ -32,7 +32,7 @@ public class SaveCommand extends AbstractCommand {
 			game.save(this.fileName);
 			view.showMessage(Messages.COMMAND_SAVE_OK.formatted(this.fileName));
 		} catch (GameModelException gme) {
-			throw new CommandExecuteException(Messages.INVALID_LEVEL_NUMBER);
+			throw new CommandExecuteException(Messages.ERROR_COMMAND_EXECUTE);
 		}
 	}
 

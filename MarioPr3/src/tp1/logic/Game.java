@@ -11,6 +11,7 @@ import tp1.exceptions.GameLoadException;
 import tp1.exceptions.GameModelException;
 import tp1.exceptions.ObjectParseException;
 import tp1.exceptions.OffBoardException;
+import tp1.logic.gameobjects.GameItem;
 import tp1.logic.gameobjects.GameObject;
 import tp1.logic.gameobjects.GameObjectFactory;
 import tp1.logic.gameobjects.Mario;
@@ -35,13 +36,12 @@ public class Game implements GameModel, GameStatus, GameWorld {
 			this.fileloader = new LevelGameConfiguration(nLevel, this);
 		} catch (GameModelException gme) {
 			this.fileloader = new LevelGameConfiguration(this);
-		} finally {
-			loadFileInfo();
-			this.points = 0;
-			this.lives = 3;
-			this.exit = false;
-			this.victory = false;
 		}
+		loadFileInfo();
+		this.points = this.fileloader.points();
+		this.lives = this.fileloader.numLives();
+		this.exit = false;
+		this.victory = false;
 	}
 	
 	public void reset() {
@@ -63,8 +63,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 		try (BufferedWriter out = 
 				new BufferedWriter(
 						new FileWriter(fileName));){
-			out.write(this.time + Messages.SPACE + this.points + Messages.SPACE + this.lives); out.newLine();
-			out.write(this.gameObjectContainer.toString());
+			out.write(this.toString());
 		} catch (IOException e) {
 			throw new GameModelException(Messages.FILE_NOT_OPENED, e);
 		}
@@ -148,17 +147,16 @@ public class Game implements GameModel, GameStatus, GameWorld {
 		this.points += num;
 	}
 	 
-	public void doInteractionsFrom(GameObject obj) {
+	public void doInteractionsFrom(GameItem obj) {
 		this.gameObjectContainer.doInteractionsFrom(obj);
 	}
 	
 	public void addObject(String [] objWords) throws OffBoardException, ObjectParseException{
-		if(this.mario == null) this.mario = new Mario(new Position(0,0), this);
-		Mario mario = this.mario.parse(objWords, this);
+		Mario mario = new Mario(null, null).parse(objWords, this);
 		GameObject object = mario;
 		
 		if(mario != null) {
-			this.mario.dead();
+			if(this.mario != null) this.mario.dead();
 			this.mario = mario;
 		}
 		else object = GameObjectFactory.parse(objWords, this);
@@ -175,11 +173,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		
-		stringBuilder.append("GAME: ").append(Messages.SPACE).append(this.time).append("s ").append(this.points).append("pts ").append(this.lives).append("lives ");
-		if(this.exit) stringBuilder.append("EXITED");
-		else stringBuilder.append("NOT EXITED YET");
-		if(this.victory) stringBuilder.append(Messages.LINE.formatted(" VICTORY"));
-		else stringBuilder.append(Messages.LINE.formatted(" NO VICTORY YET"));
+		stringBuilder.append(this.time).append(Messages.SPACE).append(this.points).append(Messages.SPACE).append(this.lives).append(Messages.LINE_SEPARATOR);
 		stringBuilder.append(this.gameObjectContainer.toString());
 	return stringBuilder.toString();
 	}

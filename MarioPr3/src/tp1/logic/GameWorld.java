@@ -2,12 +2,13 @@
 
 package tp1.logic;
 
+import tp1.logic.gameobjects.GameItem;
 import tp1.logic.gameobjects.GameObject;
 
 public interface GameWorld {
 
 	public void addPoints(int num);
-	public void doInteractionsFrom(GameObject object);
+	public void doInteractionsFrom(GameItem object);
 	public void marioDead();
 	public boolean isSolid(Position position);
 	public void marioExited();

@@ -21,14 +21,15 @@ public class ActionList implements Iterable<Action> {
 	}
 	
 	public void addLast(Action action) {
-		this.actionList.addLast(action);
+		if (action == Action.STOP || (!containsOpposite(action) && times(action) < 4)) 
+			this.actionList.addLast(action);
 	}
 	
 	public void clear() {
 		this.actionList.clear();
 	}
 	
-	public int times(Action action) {
+	private int times(Action action) {
 		int n = 0;
 		for(Action aux: this.actionList) {
 			if(aux == action) n++;
@@ -36,7 +37,7 @@ public class ActionList implements Iterable<Action> {
 	return n;
 	}
 	
-	public boolean containsOpposite(Action action) {
+	private boolean containsOpposite(Action action) {
 		for(Action aux: this.actionList) if(aux == action.opposite()) return true;
 	return false;
 	}

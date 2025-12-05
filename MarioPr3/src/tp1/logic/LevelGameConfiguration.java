@@ -63,8 +63,6 @@ public class LevelGameConfiguration implements GameConfiguration{
 		return aux;
 	}
 	
-	
-	
 	private void initLevelMinus1(GameWorld game) {
 		this.resetsAll = true;
 		this.time = 100;
@@ -75,6 +73,7 @@ public class LevelGameConfiguration implements GameConfiguration{
 	
 	private void initLevel0(GameWorld game) {
 		this.time = 100;
+		this.lives = 3;
 		// 1. Lands
 		this.objects = new ArrayList<>();
 		for(int col = 0; col < 15; col++) {

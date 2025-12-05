@@ -27,9 +27,7 @@ public class GameObjectContainer {
 	public void update() {
 		List<GameObject> aux = auxiliarObjects();
 		for (GameObject object : aux) {
-			if(object.isAlive()) {
-				object.update();
-			}
+			if(object.isAlive()) object.update();
 		}
 		removeDead();
 	}

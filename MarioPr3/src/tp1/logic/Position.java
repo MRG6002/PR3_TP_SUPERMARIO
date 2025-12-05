@@ -45,7 +45,7 @@ public class Position {
 	public static Position stringToPosition(String string) throws OffBoardException, PositionParseException{
 		
 		try {
-			if(string != null && validStringFormat(string)) {
+			if(validStringFormat(string)) {
 				String[] posiciones = parsePositions(string);
 				int posx = Integer.parseInt(posiciones[0]);
 				int posy = Integer.parseInt(posiciones[1]);

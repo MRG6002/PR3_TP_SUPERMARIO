@@ -55,16 +55,13 @@ public class ActionCommand extends AbstractCommand {
 		return command;
 	}
 	
-	private static List<Action> parseActions(String[] commandWords, List<Action> actionList) {
-		Action action = null;
-		for(String s: commandWords) {
-			
-			try {
+	private static void parseActions(String[] commandWords, List<Action> actionList) {	
+		try {
+			Action action = null;
+				for(String s: commandWords) {
 				action = Action.parseAction(s);
 				actionList.addLast(action);
-			} catch (ActionParseException ape) {} //if its unvalid, we do nothing here
-			
-		}
-		return actionList;
+			}
+		} catch (ActionParseException ape) {} //if its unvalid, we do nothing here
 	}
 }
