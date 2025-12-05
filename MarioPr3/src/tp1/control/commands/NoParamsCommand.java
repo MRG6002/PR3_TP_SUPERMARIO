@@ -12,11 +12,11 @@ public abstract class NoParamsCommand extends AbstractCommand {
 	}
 
 	@Override
-	public Command parse(String[] commandWords) throws CommandParseException{
+	public NoParamsCommand parse(String[] commandWords) throws CommandParseException{
 		if (commandWords.length > 1 && matchCommandName(commandWords[0]))
 	 		throw new CommandParseException(Messages.COMMAND_INCORRECT_PARAMETER_NUMBER);
 		
-		Command command = null;
+		NoParamsCommand command = null;
 		if(commandWords.length == 1 && matchCommandName(commandWords[0])) command = this;
 	return command;
 	}
