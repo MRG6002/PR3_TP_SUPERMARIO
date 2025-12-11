@@ -53,7 +53,7 @@ public class Mario extends MovingObject {
 	
 	@Override
 	public void update() {
-		Position position = this.position.copy(); 
+		Position position = this.position; 
 		this.playerMovement();
 		if(this.position.equals(position) && (!super.isInDirection(Action.STOP) || !this.game.isSolid(this.position.go(Action.DOWN)))) { 
 			super.update();
@@ -65,23 +65,27 @@ public class Mario extends MovingObject {
 		this.jumpedFromFloor = false;
 		for(Action action: this.actionList) {
 			this.headCollision = false;
-			if(action == Action.DOWN) {
-				if(this.game.isSolid(this.position.go(Action.DOWN))) super.stop();
-				else {
-					while(super.freeFalling()) 
-					if(!super.isAlive()) this.game.marioDead();
-				}
-			}
-			else if(action == Action.UP) {
-				if(flightRestriction()) {
-					super.up(); 
-					this.jumpedFromFloor = true;
-				}
-			}
+			if(action == Action.DOWN) actionDown();
+			else if(action == Action.UP) actionUp();
 			else if (action == Action.STOP) super.stop();
 			else super.doAction(action);
 		}
 		this.actionList.clear();
+	}
+	
+	private void actionDown() {
+		if(this.game.isSolid(this.position.go(Action.DOWN))) super.stop();
+		else {
+			while(super.freeFalling()) 
+			if(!super.isAlive()) this.game.marioDead();
+		}
+	}
+	
+	private void actionUp() {
+		if(flightRestriction()) {
+			super.up(); 
+			this.jumpedFromFloor = true;
+		}
 	}
 	
 	private boolean flightRestriction() {

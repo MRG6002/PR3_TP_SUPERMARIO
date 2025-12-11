@@ -72,8 +72,4 @@ public class Position {
 	private static boolean validPosition(int posx, int posy) {
 		return (posx >= 0 && posx < Game.DIM_Y && posy >= 0 && posy < Game.DIM_X);
 	}
-
-	public Position copy() {
-		return new Position(this.row, this.col);
-	}
 }
